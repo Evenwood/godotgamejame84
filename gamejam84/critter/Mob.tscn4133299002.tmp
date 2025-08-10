@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://k2v0styiwf5d"]
+
+[ext_resource type="Texture2D" uid="uid://byo0wvxvy1exh" path="res://art/critter.png" id="1_dbnwe"]
+[ext_resource type="Script" uid="uid://c0f8k5je2opgq" path="res://critter/mob.gd" id="1_fkld6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dbnwe"]
+radius = 7.0
+
+[node name="Mob" type="RigidBody2D"]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_fkld6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_dbnwe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dbnwe")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-0.500001, 7.15256e-07)
+scale = Vector2(1.25, 1.1)
