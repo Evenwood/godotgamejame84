@@ -1,5 +1,11 @@
 extends RigidBody2D
 
+signal critter_died
+
+@onready var death_sound = $DeathSound
+@onready var collision_shape = $CollisionShape2D
+@onready var sprite = $AnimatedSprite2D
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,3 +23,9 @@ func _process(delta: float) -> void:
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
 	
+
+func die():
+	death_sound.play()
+	sprite.play("death")
+	collision_shape.set_deferred("disabled", true)
+	emit_signal("critter_died")	
