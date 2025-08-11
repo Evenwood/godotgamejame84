@@ -1,4 +1,5 @@
-extends Area2D
+extends CharacterBody2D
+
 signal hit
 
 @export var speed = 400 # How fast the player will move (pixels/sec).
@@ -15,8 +16,21 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	global_position = get_global_mouse_position()
-	position.clamp(Vector2.ZERO, screen_size)
+	pass
+
+func _physics_process(delta):
+	var mouse_pos = get_global_mouse_position()
+	var distance_to_mouse = global_position.distance_to(mouse_pos)
+
+	# Stop moving if very close to mouse
+	if distance_to_mouse < 5.0:
+		velocity = velocity.lerp(Vector2.ZERO, 10.0 * delta)
+	else:
+		var direction = (mouse_pos - global_position).normalized()
+		var target_velocity = direction * speed
+		velocity = velocity.lerp(target_velocity, 3 * delta)
+
+	move_and_slide()
 
 
 func _on_body_entered(body: Node2D) -> void:
