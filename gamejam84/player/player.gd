@@ -1,6 +1,8 @@
 extends CharacterBody2D
 
-signal hit
+signal swat_started(start_position: Vector2)
+signal swat_completed(final_position: Vector2)
+signal swat_something(swat_object, swat_point: Vector2)
 
 enum PlayerState {
 	FOLLOWING_MOUSE,
@@ -31,13 +33,13 @@ func start(pos):
 func _ready() -> void:
 	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _input(event) -> void:
+func _unhandled_input(event) -> void:
 	if Input.is_action_just_pressed("swat"):
 		# Start swat behavior
 		target_position = get_global_mouse_position()
 		swat_direction = (target_position - global_position).normalized()
 		current_state = PlayerState.SWATTING
+		swat_started.emit(target_position)
 		print("Swatting to: ", target_position)
 
 func _physics_process(delta: float) -> void:
@@ -59,6 +61,10 @@ func _physics_process(delta: float) -> void:
 			
 			# If swatting and hit something, stop the swat
 			if current_state == PlayerState.SWATTING:
+				var swat_object = collision.get_collider()
+				var swat_point = collision.get_position()
+				swat_something.emit(swat_object, swat_point)
+				swat_completed.emit(swat_point)
 				velocity = Vector2.ZERO
 				current_state = PlayerState.SWAT_PAUSE
 				print("Swat interrupted by collision!")
@@ -95,6 +101,7 @@ func swat(delta : float) -> void:
 		velocity = Vector2.ZERO  # Immediate stop
 		global_position = target_position  # Snap to exact position
 		current_state = PlayerState.FOLLOWING_MOUSE
+		swat_completed.emit(target_position)
 		print("Swat complete - abrupt stop!")
 		return
 	
@@ -115,6 +122,7 @@ func swat(delta : float) -> void:
 		velocity = Vector2.ZERO
 		global_position = target_position
 		current_state = PlayerState.FOLLOWING_MOUSE
+		swat_completed.emit(target_position)
 		print("Prevented overshoot - landed exactly!")
 		return
 
