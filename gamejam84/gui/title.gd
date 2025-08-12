@@ -4,6 +4,7 @@ extends Node2D
 @onready var title: = $CanvasLayer/TitleLabel
 
 func _ready() -> void:
+	title.text = Core.TITLE
 	var length = Core.TITLE.length()
 	tween.tween_property(title, "visible_characters", length, 2)
 
