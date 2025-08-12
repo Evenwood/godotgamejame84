@@ -1,13 +1,20 @@
 extends Node
 
+
 const TIME_LIMIT = 120
 const MAIN_MESSAGE = "Squish the Critters!!!"
 const TITLE = "CREEPY CRITTER SQUISHER"
 
 # Point Values
-const CRITTER_SQUISH_POINTS = 2
+const CRITTER_SQUISH_POINTS = 1
 const COLLECT_POWER_UP_POINTS = 3
 
 # Tracked Parameters
 var critters_squished = 0
 var power_ups_collected = 0
+
+func calculate_score() -> int:
+	var score = 0
+	score += CRITTER_SQUISH_POINTS * critters_squished
+	score += COLLECT_POWER_UP_POINTS * power_ups_collected
+	return score

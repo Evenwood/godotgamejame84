@@ -20,10 +20,12 @@ func _ready() -> void:
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if(game_active):
+		update_score()
 
 
 func game_over() -> void:
+	game_active = false
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	$HUD.show_game_over()
@@ -65,8 +67,8 @@ func _on_mob_timer_timeout() -> void:
 
 
 
-func update_score(score_update) -> void:
-	score += score_update
+func update_score() -> void:
+	score = Core.calculate_score()
 	$HUD.update_score(score)
 	
 	
@@ -84,7 +86,6 @@ func _on_start_timer_timeout() -> void:
 	
 func _on_critter_swatted(critter):
 	Core.critters_squished += 1
-	update_score(Core.CRITTER_SQUISH_POINTS)
 	print("SWATTED: ", critter.name);
 	audio_player.play()
 	critter.queue_free()
