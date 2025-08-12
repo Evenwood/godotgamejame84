@@ -44,6 +44,8 @@ rotation = 0.000870322
 script = ExtResource("5_fos0i")
 size_powerup_scene = ExtResource("6_3dxm6")
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]

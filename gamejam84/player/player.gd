@@ -4,6 +4,7 @@ signal swat_started(start_position: Vector2)
 signal swat_completed(final_position: Vector2)
 signal swat_something(swat_object, swat_point: Vector2)
 
+signal critter_swatted(critter)
 signal player_collided(collision_object, collision_point: Vector2)
 signal powerup_activated(powerup_type: String)
 signal powerup_expired(powerup_type: String)
@@ -44,8 +45,6 @@ func _ready() -> void:
 		# Add player to group for power-up detection
 	add_to_group("player")
 	# Connect signals to handler functions (can also connect in editor)
-	swat_started.connect(_on_swat_started)
-	swat_completed.connect(_on_swat_completed)
 	player_collided.connect(_on_player_collided)
 	# Connect to all power-ups in the scene
 	_connect_to_powerups()
@@ -57,7 +56,6 @@ func _unhandled_input(event) -> void:
 		swat_direction = (target_position - global_position).normalized()
 		current_state = PlayerState.SWATTING
 		swat_started.emit(target_position)
-		print("Swatting to: ", target_position)
 
 func _connect_to_powerups():
 	var powerups = get_tree().get_nodes_in_group("powerups")
@@ -83,11 +81,10 @@ func _apply_size_boost(duration: float, multiplier: float):
 		old_timer.queue_free()
 	# Apply size effect
 	scale = original_scale * multiplier
-	print("Player size increased by ", multiplier, "x for ", duration, "seconds")
 	# Create timer for power=up duration
 	var timer = Timer.new()
 	timer.wait_time = duration
-	timer.one_show = true
+	timer.one_shot = true
 	timer.timeout.connect(_remove_size_boost)
 	add_child(timer)
 	timer.start()
@@ -101,8 +98,6 @@ func _remove_size_boost():
 		timer.queue_free()
 		# Reset scale
 		scale = original_scale
-		print("Size boost expired - back to normal size")
-		
 		powerup_expired.emit("size_boost")
 		
 func _physics_process(delta: float) -> void:
@@ -117,36 +112,27 @@ func _physics_process(delta: float) -> void:
 	
 		# Check for collisions after moving
 	if get_slide_collision_count() > 0:
-		print("Bumped into something!")
 		for i in get_slide_collision_count():
 			var collision = get_slide_collision(i)
-			print("Hit: ", collision.get_collider().name)
-			
 			# If swatting and hit something, stop the swat
 			if current_state == PlayerState.SWATTING:
 				var swat_object = collision.get_collider()
 				var swat_point = collision.get_position()
 				swat_something.emit(swat_object, swat_point)
+				player_collided.emit(swat_object, swat_point)
 				swat_completed.emit(swat_point)
 				velocity = Vector2.ZERO
 				current_state = PlayerState.SWAT_PAUSE
-				$CollisionShape2D.disabled = false
-				print("Swat interrupted by collision!")
-
-# Signal handler functions
-func _on_swat_started(target_pos: Vector2):
-	print("Swat started toward: ", target_pos)
-
-func _on_swat_completed(final_pos: Vector2):
-	print("Swat completed at: ", final_pos)
-
-func _on_swat_interrupted(reason: String):
-	print("Swat interrupted: ", reason)
+				$CollisionShape2D.disabled = true
 
 func _on_player_collided(hit_object, collision_point: Vector2):
 	print("Collision with ", hit_object.name, " at ", collision_point)
+	if hit_object.is_in_group("critters"):
+		print("Hit a critter")
+		critter_swatted.emit(hit_object)
 
 func follow_mouse(delta : float) -> void:
+	$CollisionShape2D.disabled = true
 	# Get the mouse position and calculate direction
 	var mouse_pos = get_global_mouse_position()
 	var distance_to_mouse = global_position.distance_to(mouse_pos)
@@ -180,8 +166,6 @@ func swat(delta : float) -> void:
 		global_position = target_position  # Snap to exact position
 		current_state = PlayerState.FOLLOWING_MOUSE
 		swat_completed.emit(target_position)
-		$CollisionShape2D.disabled = false
-		print("Swat complete - abrupt stop!")
 		return
 	
 	# Accelerate toward target
@@ -202,8 +186,6 @@ func swat(delta : float) -> void:
 		global_position = target_position
 		current_state = PlayerState.FOLLOWING_MOUSE
 		swat_completed.emit(target_position)
-		$CollisionShape2D.disabled = false
-		print("Prevented overshoot - landed exactly!")
 		return
 
 func swat_pause(delta):

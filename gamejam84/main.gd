@@ -1,14 +1,22 @@
 extends Node
 
 @export var mob_scene: PackedScene
+@onready var audio_player = $AudioStreamPlayer
+
 var score
 var time
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
-
-
+	# Find the player and connect to its signal
+	var player = get_tree().get_first_node_in_group("player")
+	if player and player.has_signal("critter_swatted"):
+		player.critter_swatted.connect(_on_critter_swatted)
+		print("Critter connected to player's swat signal")
+	
+	var squish_sound = preload("res://art/squishwet.mp3")
+	audio_player.stream = squish_sound
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
@@ -65,3 +73,9 @@ func _on_score_timer_timeout() -> void:
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
+	
+func _on_critter_swatted(critter):
+	print("SWATTED: ", critter.name);
+	audio_player.play()
+	critter.queue_free()
+	

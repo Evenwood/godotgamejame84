@@ -5,7 +5,7 @@ signal powerup_collected(powerup_type: String, duration: float, effect_value: fl
 @export var powerup_type: String = "size_boost"
 @export var effect_duration: float = 3.0
 @export var size_multiplier: float = 2.0
-@export var bob_speed: float = 2.0
+@export var bob_speed: float = 5.0
 @export var bob_height: float = 10.0
 
 var start_position: Vector2
@@ -14,6 +14,9 @@ var time_elapsed: float = 0.0
 func _ready() -> void:
 	# Initial position for bobbing
 	start_position = global_position
+	# Add the specific powerup type group
+	add_to_group("powerups")
+	add_to_group("powerup_" + powerup_type)
 	# Connect area detection
 	area_entered.connect(_on_area_entered)
 	body_entered.connect(_on_body_entered)

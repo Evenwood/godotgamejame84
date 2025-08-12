@@ -16,25 +16,30 @@ func _ready():
 	spawn_timer.start()
 
 func _spawn_powerup():
+	# Check if a size power-up already exists
+	var existing_size_powerups = get_tree().get_nodes_in_group("powerup_size_boost")
+	if existing_size_powerups.size() > 0:
+		print("Size power-up already exists, skipping spawn")
+		return
+		
 	var current_powerups = get_tree().get_nodes_in_group("powerups")
+	if current_powerups.size() >= max_powerups:
+		print("Max power-ups reached, skipping spawn")
+		return
+		
+	var powerup = size_powerup_scene.instantiate()
 
-	if current_powerups.size() < max_powerups:
-		var powerup = size_powerup_scene.instantiate()
+	# Random position on screen
+	var viewport_size = get_viewport().get_visible_rect().size
+	powerup.global_position = Vector2(
+		randf() * viewport_size.x,
+		randf() * viewport_size.y
+	)
 
-		# Random position on screen
-		var viewport_size = get_viewport().get_visible_rect().size
-		powerup.global_position = Vector2(
-			randf() * viewport_size.x,
-			randf() * viewport_size.y
-		)
+	# Connect to player
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		powerup.powerup_collected.connect(player._on_powerup_collected)
 
-		# Add to powerups group
-		powerup.add_to_group("powerups")
-
-		# Connect to player
-		var player = get_tree().get_first_node_in_group("player")
-		if player:
-			powerup.powerup_collected.connect(player._on_powerup_collected)
-
-		get_parent().add_child(powerup)
-		print("✨ Size power-up spawned!")
+	get_parent().add_child(powerup)
+	print("Size power-up spawned!")
