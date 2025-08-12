@@ -23,6 +23,10 @@ enum PlayerState {
 @export var swat_acceleration: float = 10000.0
 @export var max_swat_speed: float = 2000.0
 
+# Boundary settings
+@export var boundary_margin: float = 20.0  # Distance from screen edge
+var play_area: Rect2
+
 var current_state = PlayerState.FOLLOWING_MOUSE
 var target_position: Vector2
 var swat_direction: Vector2
@@ -42,13 +46,28 @@ func start(pos):
 func _ready() -> void:
 	# Store original scale
 	original_scale = scale
+	
+	_setup_play_area()
+	
 		# Add player to group for power-up detection
 	add_to_group("player")
 	# Connect signals to handler functions (can also connect in editor)
 	player_collided.connect(_on_player_collided)
 	# Connect to all power-ups in the scene
 	_connect_to_powerups()
+
+func _setup_play_area():
+	# Get the viewport size
+	var viewport = get_viewport().get_visible_rect()
 	
+	# Create play area with margins
+	play_area = Rect2(
+		boundary_margin,
+		boundary_margin,
+		viewport.size.x - (boundary_margin * 2),
+		viewport.size.y - (boundary_margin)
+	)
+
 func _unhandled_input(event) -> void:
 	if Input.is_action_just_pressed("swat"):
 		# Start swat behavior
@@ -110,6 +129,8 @@ func _physics_process(delta: float) -> void:
 			swat_pause(delta)
 	move_and_slide()
 	
+	_enforce_boundaries()
+	
 		# Check for collisions after moving
 	if get_slide_collision_count() > 0:
 		for i in get_slide_collision_count():
@@ -124,7 +145,18 @@ func _physics_process(delta: float) -> void:
 				velocity = Vector2.ZERO
 				current_state = PlayerState.SWAT_PAUSE
 				$CollisionShape2D.disabled = true
+				
+func _enforce_boundaries():
+	# Clamp player position to play area
+	global_position.x = clamp(global_position.x, play_area.position.x, play_area.position.x + play_area.size.x)
+	global_position.y = clamp(global_position.y, play_area.position.y, play_area.position.y + play_area.size.y)
 
+	# Stop velocity if hitting boundary (prevents sliding against edges)
+	if global_position.x <= play_area.position.x or global_position.x >= play_area.position.x + play_area.size.x:
+		velocity.x = 0
+	if global_position.y <= play_area.position.y or global_position.y >= play_area.position.y + play_area.size.y:
+		velocity.y = 0
+		
 func _on_player_collided(hit_object, collision_point: Vector2):
 	print("Collision with ", hit_object.name, " at ", collision_point)
 	if hit_object.is_in_group("critters"):

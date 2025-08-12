@@ -3,7 +3,7 @@ extends Area2D
 signal powerup_collected(powerup_type: String, duration: float, effect_value: float)
 
 @export var powerup_type: String = "size_boost"
-@export var effect_duration: float = 3.0
+@export var effect_duration: float = 5.0
 @export var size_multiplier: float = 2.0
 @export var bob_speed: float = 5.0
 @export var bob_height: float = 10.0
