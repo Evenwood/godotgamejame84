@@ -35,6 +35,8 @@ func _on_body_entered(body):
 		_collect_powerup(body.get_parent())
 		
 func _collect_powerup(player):
+	Core.power_ups_collected += 1  # Used for score tracking and calculation
+	
 	print("Size power-up collected!")
 	
 	powerup_collected.emit(powerup_type, effect_duration, size_multiplier)
