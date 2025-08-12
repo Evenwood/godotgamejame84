@@ -1,0 +1,70 @@
+[gd_scene load_steps=3 format=3 uid="uid://t8lu06un51dt"]
+
+[ext_resource type="Script" uid="uid://b6u27gfkeehbd" path="res://gui/title.gd" id="1_0pby2"]
+[ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_2e5gx"]
+
+[node name="Title" type="Node2D"]
+script = ExtResource("1_0pby2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TitleLabel" type="RichTextLabel" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -576.0
+offset_top = 35.0
+offset_right = 576.0
+offset_bottom = 182.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("1_2e5gx")
+theme_override_font_sizes/normal_font_size = 80
+autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -153.5
+offset_top = -66.0
+offset_right = 153.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_right = 35
+theme_override_constants/margin_bottom = 35
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 45
+
+[node name="StartButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_2e5gx")
+theme_override_font_sizes/font_size = 50
+text = "Start"
+
+[node name="ExitButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_2e5gx")
+theme_override_font_sizes/font_size = 50
+text = "Exit"
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
