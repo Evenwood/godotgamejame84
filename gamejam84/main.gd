@@ -5,6 +5,7 @@ extends Node
 
 var score
 var time
+var game_active = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -35,6 +36,7 @@ func new_game():
 	$HUD.show_message("Get Ready")
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
+	game_active = true
 
 func _on_mob_timer_timeout() -> void:
 	# Create a new instance of the Mob scene.
@@ -62,19 +64,27 @@ func _on_mob_timer_timeout() -> void:
 	add_child(mob)
 
 
-func _on_score_timer_timeout() -> void:
-	score += 1
-	time += 1
+
+func update_score(score_update) -> void:
+	score += score_update
 	$HUD.update_score(score)
+	
+	
+func _on_score_timer_timeout() -> void:
+	time += 1
 	$HUD.update_time(time)
 	if(time >= Core.TIME_LIMIT):
 		game_over()
+
 
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
 	
+	
 func _on_critter_swatted(critter):
+	Core.critters_squished += 1
+	update_score(Core.CRITTER_SQUISH_POINTS)
 	print("SWATTED: ", critter.name);
 	audio_player.play()
 	critter.queue_free()
