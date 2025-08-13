@@ -99,10 +99,12 @@ func pause() -> void:
 	$ScoreTimer.stop()
 	update_score()
 	Engine.time_scale = 0.0
+	$Pause.show()
 	
 	
 func unpause() -> void:
 	paused = false
+	$Pause.hide()
 	unfreeze_critters()
 	$ScoreTimer.start()
 	update_score()
@@ -140,3 +142,7 @@ func _on_critter_swatted(critter):
 	critter.queue_free()
 	$death_animation.position = critter.position
 	$death_animation.play()
+
+
+func _on_resume_from_pause() -> void:
+	processPause()
