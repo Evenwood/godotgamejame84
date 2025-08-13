@@ -4,12 +4,12 @@
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_wd47t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ycpp"]
-bg_color = Color(0.243137, 0.65098, 0.815686, 0.313726)
+bg_color = Color(0.0693711, 0.280649, 0.363005, 0.713726)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0.0117647, 0.141176, 0.145098, 0.486275)
+border_color = Color(0.0117647, 0.141176, 0.145098, 0.898039)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5

@@ -34,14 +34,6 @@ func _process(delta: float) -> void:
 		process_pause()
 	if(game_active && paused != true && Input.is_action_just_pressed("swat")):
 		Core.num_swats += 1
-
-
-func game_over() -> void:
-	game_active = false
-	$ScoreTimer.stop()
-	$MobTimer.stop()
-	stats.show()
-	#$HUD.show_game_over()
 	
 func new_game():
 	score = 0
@@ -141,7 +133,7 @@ func process_end_game() -> void:
 	for c in critters:
 		c.queue_free()
 	$HUD.show_message("Time's Up!")
-	await get_tree().create_timer(1.0).timeout
+	await get_tree().create_timer(2.0).timeout
 	Engine.time_scale = 0
 	update_score()
 	stats.update_stats()

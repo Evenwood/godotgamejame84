@@ -1,7 +1,7 @@
 extends Node
 
 
-const TIME_LIMIT = 5
+const TIME_LIMIT = 120
 const MAIN_MESSAGE = "Squish the Critters!!!"
 const TITLE = "CREEPY CRITTER SQUISHER"
 
@@ -14,7 +14,7 @@ var critters_squished = 0
 var power_ups_collected = 0
 var num_swats = 0
 var successful_swats = 0
-var time_elapsed = 1
+var time_elapsed = 0
 
 func calculate_score() -> int:
 	var score = 0
