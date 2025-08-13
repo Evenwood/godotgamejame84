@@ -6,6 +6,8 @@ extends Node
 var score
 var time
 var game_active = false
+var critter_dict = {}
+var frozen = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -66,7 +68,29 @@ func _on_mob_timer_timeout() -> void:
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+	
+	var count = 0
+	var critters = get_tree().get_nodes_in_group("critters")
+	for c in critters:
+		count += 1
+	print("There are: " + str(count) + " mobs")
 
+
+func freeze_critters() -> void:
+	frozen = true
+	var critters = get_tree().get_nodes_in_group("critters")
+	for c in critters:
+		critter_dict[c.name] = c.linear_velocity
+		c.linear_velocity = Vector2(0,0)
+	$MobTimer.stop()
+		
+
+func unfreeze_critters() -> void:
+	frozen = false
+	var critters = get_tree().get_nodes_in_group("critters")
+	for c in critters:
+		c.linear_velocity = critter_dict[c.name]
+	$MobTimer.start()
 
 
 func update_score() -> void:
