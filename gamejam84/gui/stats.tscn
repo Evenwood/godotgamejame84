@@ -46,7 +46,7 @@ theme_override_constants/margin_bottom = 35
 
 [node name="LabelContainer" type="VBoxContainer" parent="StatPanel/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 60
+theme_override_constants/separation = 50
 
 [node name="CritterLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
 layout_mode = 2
@@ -107,3 +107,29 @@ fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ButtonContainer" type="HBoxContainer" parent="StatPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="ContinueButton" type="Button" parent="StatPanel/MarginContainer/LabelContainer/ButtonContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_wd47t")
+theme_override_font_sizes/font_size = 30
+text = "Continue"
+
+[node name="RestartButton" type="Button" parent="StatPanel/MarginContainer/LabelContainer/ButtonContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_wd47t")
+theme_override_font_sizes/font_size = 30
+text = "Restart"
+
+[node name="ExitButton" type="Button" parent="StatPanel/MarginContainer/LabelContainer/ButtonContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_wd47t")
+theme_override_font_sizes/font_size = 30
+text = "Exit"
+
+[connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/ExitButton" to="." method="_on_exit_button_pressed"]

@@ -1,5 +1,8 @@
 extends CanvasLayer
 
+signal continue_game()
+signal restart_game()
+
 @onready var critters = $StatPanel/MarginContainer/LabelContainer/CritterLabel
 @onready var powers = $StatPanel/MarginContainer/LabelContainer/PowerUpLabel
 @onready var swats = $StatPanel/MarginContainer/LabelContainer/SwatLabel
@@ -25,3 +28,17 @@ func calc_accuracy() -> String:
 		var percentage = snapped(acc, 0.1)
 		var percentString: String = str(percentage) + "%"
 		return percentString
+
+
+func _on_continue_button_pressed() -> void:
+	continue_game.emit()
+	hide()
+
+
+func _on_restart_button_pressed() -> void:
+	restart_game.emit()
+	hide()
+
+
+func _on_exit_button_pressed() -> void:
+	get_tree().quit()
