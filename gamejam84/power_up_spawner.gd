@@ -7,7 +7,7 @@ extends Node2D
 
 var spawn_timer: Timer
 
-var powerup_types = ["size_boost", "freeze"]
+var powerup_types = ["size_boost", "freeze", "smoke_bomb"]
 
 func _ready():
 	# Create and setup timer
@@ -47,4 +47,4 @@ func _spawn_powerup():
 		powerup.powerup_collected.connect(player._on_powerup_collected)
 
 	get_parent().add_child(powerup)
-	print("Size power-up spawned!")
+	print("Power-up spawned!")
