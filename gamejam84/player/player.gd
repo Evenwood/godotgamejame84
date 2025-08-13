@@ -36,6 +36,7 @@ var pause_timer: float = 0.0
 # Power-up system
 var active_powerups: Dictionary = {}
 var original_scale: Vector2
+var critter_dict: Dictionary = {}
 
 func start(pos):
 	position = pos
@@ -88,6 +89,8 @@ func _on_powerup_collected(powerup_type: String, duration: float, effect_value: 
 	match powerup_type:
 		"size_boost":
 			_apply_size_boost(duration, effect_value)
+		"freeze":
+			_apply_freeze(duration, effect_value)
 		# Other powerups here
 		_:
 			print("Unknown power-up type: powerup_type")
@@ -118,6 +121,50 @@ func _remove_size_boost():
 		# Reset scale
 		scale = original_scale
 		powerup_expired.emit("size_boost")
+
+func _apply_freeze(duration: float, multiplier: float):
+	# If freeze is already boosted then reset it
+	if "freeze" in active_powerups:
+		var old_timer = active_powerups["freeze"]
+		old_timer.queue_free()
+	# Apply freeze effect
+	var critters = get_tree().get_nodes_in_group("critters")
+	for c in critters:
+		critter_dict[c.name] = c.linear_velocity
+		c.linear_velocity = Vector2(0,0)
+	# Create timer for power=up duration
+	var timer = Timer.new()
+	timer.wait_time = duration
+	timer.one_shot = true
+	timer.timeout.connect(_remove_freeze)
+	add_child(timer)
+	timer.start()
+	# Store in active power-ups
+	active_powerups["freeze"] = timer		
+
+func _remove_freeze():
+	if "freeze" in active_powerups:
+		var timer = active_powerups["freeze"]
+		active_powerups.erase("freeze")
+		timer.queue_free()
+		# Reset freeze
+		var critters = get_tree().get_nodes_in_group("critters")
+		for c in critters:
+			if c.name in critter_dict:
+				c.linear_velocity = critter_dict[c.name]
+				critter_dict.erase(c.name)
+		powerup_expired.emit("freeze")
+		
+# Public method to check if a powerup is active
+func is_powerup_active(powerup_type: String) -> bool:
+	return powerup_type in active_powerups
+
+# Get remaining time for a powerup
+func get_powerup_time_remaining(powerup_type: String) -> float:
+	if powerup_type in active_powerups:
+		var timer = active_powerups[powerup_type]
+		return timer.time_left
+	return 0.0
 		
 func _physics_process(delta: float) -> void:
 	match current_state:
