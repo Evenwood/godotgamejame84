@@ -7,6 +7,8 @@ extends Node2D
 
 var spawn_timer: Timer
 
+var powerup_types = ["size_boost", "freeze"]
+
 func _ready():
 	# Create and setup timer
 	spawn_timer = Timer.new()
@@ -16,10 +18,12 @@ func _ready():
 	spawn_timer.start()
 
 func _spawn_powerup():
-	# Check if a size power-up already exists
-	var existing_size_powerups = get_tree().get_nodes_in_group("powerup_size_boost")
-	if existing_size_powerups.size() > 0:
-		print("Size power-up already exists, skipping spawn")
+	# Randomly choose powerup type
+	var random_type = powerup_types[randi() % powerup_types.size()]	
+	var group_name = "powerup_" + random_type
+	# Check limits per type
+	var existing_count = get_tree().get_nodes_in_group(group_name).size()
+	if existing_count >= 1:  # Only 1 of each type
 		return
 		
 	var current_powerups = get_tree().get_nodes_in_group("powerups")
@@ -28,7 +32,8 @@ func _spawn_powerup():
 		return
 		
 	var powerup = size_powerup_scene.instantiate()
-
+	powerup.powerup_type = random_type # This will change its type
+	
 	# Random position on screen
 	var viewport_size = get_viewport().get_visible_rect().size
 	powerup.global_position = Vector2(

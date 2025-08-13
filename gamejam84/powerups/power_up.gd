@@ -8,18 +8,40 @@ signal powerup_collected(powerup_type: String, duration: float, effect_value: fl
 @export var bob_speed: float = 5.0
 @export var bob_height: float = 10.0
 
+# Powerup textures
+@export var size_boost_texture: Texture2D
+@export var freeze_texture: Texture2D
+
 var start_position: Vector2
 var time_elapsed: float = 0.0
+@onready var sprite = $Sprite2D
 
 func _ready() -> void:
 	# Initial position for bobbing
 	start_position = global_position
+	# Set the appearance based on the powerup type
+	_set_powerup_appearance()
 	# Add the specific powerup type group
 	add_to_group("powerups")
 	add_to_group("powerup_" + powerup_type)
 	# Connect area detection
 	area_entered.connect(_on_area_entered)
 	body_entered.connect(_on_body_entered)
+	
+func _set_powerup_appearance():
+	match powerup_type:
+		"size_boost":
+			if size_boost_texture:
+				sprite.texture = size_boost_texture
+			else:
+				# Load from file path if not set in inspector
+				sprite.texture = load("res://art/size_up.png")
+		"freeze":
+			if freeze_texture:
+				sprite.texture = freeze_texture
+			else:
+				# Load from file path if not set in inspector
+				sprite.texture = load("res://art/freeze.png")			
 
 func _physics_process(delta: float) -> void:
 	time_elapsed += delta

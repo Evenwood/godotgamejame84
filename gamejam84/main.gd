@@ -9,10 +9,12 @@ var game_active = false
 var critter_dict = {}
 var paused = false
 
+@onready var player = $Player
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Find the player and connect to its signal
-	var player = get_tree().get_first_node_in_group("player")
+	#var player = get_tree().get_first_node_in_group("player")
 	if player and player.has_signal("critter_swatted"):
 		player.critter_swatted.connect(_on_critter_swatted)
 		print("Critter connected to player's swat signal")
@@ -47,6 +49,10 @@ func new_game():
 	game_active = true
 
 func _on_mob_timer_timeout() -> void:
+	
+	if player.is_powerup_active("freeze"):
+		return
+		
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
 
