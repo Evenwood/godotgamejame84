@@ -91,5 +91,5 @@ func _on_critter_swatted(critter):
 	print("SWATTED: ", critter.name);
 	audio_player.play()
 	critter.queue_free()
-	$death_animation.position = get_viewport().get_mouse_position()
+	$death_animation.position = critter.position
 	$death_animation.play()
