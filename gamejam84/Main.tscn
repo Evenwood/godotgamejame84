@@ -88,3 +88,5 @@ visible = false
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
 [connection signal="resume_from_pause" from="Pause" to="." method="_on_resume_from_pause"]
+[connection signal="continue_game" from="Stats" to="." method="_on_stats_continue_game"]
+[connection signal="restart_game" from="Stats" to="." method="_on_stats_restart_game"]

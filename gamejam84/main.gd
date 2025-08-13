@@ -30,8 +30,8 @@ func _process(delta: float) -> void:
 	if(game_active):
 		update_score()
 		stats.update_stats()
-	if Input.is_action_just_pressed("escape"):
-		processPause()
+	if (game_active && Input.is_action_just_pressed("escape")):
+		process_pause()
 	if(game_active && paused != true && Input.is_action_just_pressed("swat")):
 		Core.num_swats += 1
 
@@ -46,6 +46,9 @@ func game_over() -> void:
 func new_game():
 	score = 0
 	time = 0
+	reset_game_state()
+	
+func reset_game_state() -> void:
 	$HUD.update_score(score)
 	$HUD.update_time(time)
 	$HUD.show_message("Get Ready")
@@ -111,7 +114,7 @@ func pause() -> void:
 	freeze_critters()
 	$ScoreTimer.stop()
 	update_score()
-	Engine.time_scale = 0.0
+	Engine.time_scale = 0
 	$Pause.show()
 	
 	
@@ -124,12 +127,35 @@ func unpause() -> void:
 	Engine.time_scale = 1
 
 
-func processPause() -> void:
+func process_pause() -> void:
 	if(paused):
 		unpause()
 	else:
 		pause()
 		
+func process_end_game() -> void:
+	game_active = false
+	$ScoreTimer.stop()
+	$MobTimer.stop()
+	var critters = get_tree().get_nodes_in_group("critters")
+	for c in critters:
+		c.queue_free()
+	$HUD.show_message("Time's Up!")
+	await get_tree().create_timer(1.0).timeout
+	Engine.time_scale = 0
+	update_score()
+	stats.update_stats()
+	stats.show()
+	
+func process_continue() -> void:
+	Engine.time_scale = 1
+	time = 0
+	reset_game_state()
+
+func process_restart() -> void:
+	Core.reset_state()
+	Engine.time_scale = 1
+	new_game()
 	
 func update_score() -> void:
 	score = Core.calculate_score()
@@ -141,7 +167,8 @@ func _on_score_timer_timeout() -> void:
 	Core.time_elapsed += 1
 	$HUD.update_time(time)
 	if(time >= Core.TIME_LIMIT):
-		game_over()
+		process_end_game()
+		
 
 
 func _on_start_timer_timeout() -> void:
@@ -164,4 +191,12 @@ func _on_critter_swatted(critter):
 
 
 func _on_resume_from_pause() -> void:
-	processPause()
+	process_pause()
+
+
+func _on_stats_continue_game() -> void:
+	process_continue()
+
+
+func _on_stats_restart_game() -> void:
+	process_restart()

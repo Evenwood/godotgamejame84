@@ -21,3 +21,10 @@ func calculate_score() -> int:
 	score += CRITTER_SQUISH_POINTS * critters_squished
 	score += COLLECT_POWER_UP_POINTS * power_ups_collected
 	return score
+
+func reset_state() -> void:
+	critters_squished = 0
+	power_ups_collected = 0
+	num_swats = 0
+	successful_swats = 0
+	time_elapsed = 1
