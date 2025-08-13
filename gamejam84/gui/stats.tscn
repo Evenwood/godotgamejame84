@@ -1,0 +1,135 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddhv7gv0dw3am"]
+
+[ext_resource type="Script" uid="uid://c1twi1peraaeq" path="res://gui/stats.gd" id="1_ut4vt"]
+[ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_wd47t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ycpp"]
+bg_color = Color(0.0693711, 0.280649, 0.363005, 0.713726)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0117647, 0.141176, 0.145098, 0.898039)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Stats" type="CanvasLayer"]
+script = ExtResource("1_ut4vt")
+
+[node name="StatPanel" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -290.0
+offset_top = -290.0
+offset_right = 290.0
+offset_bottom = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2ycpp")
+
+[node name="MarginContainer" type="MarginContainer" parent="StatPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_right = 35
+theme_override_constants/margin_bottom = 35
+
+[node name="LabelContainer" type="VBoxContainer" parent="StatPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="CritterLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 28
+text = "Critters Squished:"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PowerUpLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 28
+text = "Power Ups Collected: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SwatLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 28
+text = "Number of Swats: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SuccSwatLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 28
+text = "Successful Swats: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AccuracyLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 28
+text = "Accuracy: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 28
+text = "Time Elapsed: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonContainer" type="HBoxContainer" parent="StatPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="ContinueButton" type="Button" parent="StatPanel/MarginContainer/LabelContainer/ButtonContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_wd47t")
+theme_override_font_sizes/font_size = 30
+text = "Continue"
+
+[node name="RestartButton" type="Button" parent="StatPanel/MarginContainer/LabelContainer/ButtonContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_wd47t")
+theme_override_font_sizes/font_size = 30
+text = "Restart"
+
+[node name="ExitButton" type="Button" parent="StatPanel/MarginContainer/LabelContainer/ButtonContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_wd47t")
+theme_override_font_sizes/font_size = 30
+text = "Exit"
+
+[connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/ExitButton" to="." method="_on_exit_button_pressed"]

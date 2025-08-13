@@ -236,6 +236,7 @@ func _on_player_collided(hit_object, collision_point: Vector2):
 	print("Collision with ", hit_object.name, " at ", collision_point)
 	if hit_object.is_in_group("critters"):
 		print("Hit a critter")
+		Core.successful_swats += 1
 		critter_swatted.emit(hit_object)
 
 func follow_mouse(delta : float) -> void:
