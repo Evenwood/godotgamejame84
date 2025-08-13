@@ -147,9 +147,10 @@ func _on_critter_swatted(critter):
 	Core.critters_squished += 1
 	print("SWATTED: ", critter.name);
 	audio_player.play()
+	#$death_animation.position = critter.position
+	#$death_animation.play()
+	critter.get_swatted()
 	critter.queue_free()
-	$death_animation.position = critter.position
-	$death_animation.play()
 
 
 func _on_resume_from_pause() -> void:
