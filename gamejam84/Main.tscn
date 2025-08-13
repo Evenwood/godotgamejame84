@@ -23,10 +23,13 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("8_03owx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_03owx")
 }],
 "loop": true,
 "name": &"die",
-"speed": 1.0
+"speed": 2.0
 }]
 
 [node name="Main" type="Node"]
@@ -34,6 +37,7 @@ script = ExtResource("1_uu6xs")
 mob_scene = ExtResource("2_r0du0")
 
 [node name="Player" parent="." instance=ExtResource("1_glv2v")]
+position = Vector2(570, 460)
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -45,7 +49,7 @@ wait_time = 2.0
 one_shot = true
 
 [node name="StartPosition" type="Marker2D" parent="."]
-position = Vector2(240, 450)
+position = Vector2(571, 457)
 
 [node name="MobPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_glv2v")
@@ -64,6 +68,7 @@ size_powerup_scene = ExtResource("6_3dxm6")
 
 [node name="death_animation" type="AnimatedSprite2D" parent="."]
 z_index = -1
+position = Vector2(-55, -37)
 sprite_frames = SubResource("SpriteFrames_3dxm6")
 animation = &"die"
 
