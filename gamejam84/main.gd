@@ -7,7 +7,7 @@ var score
 var time
 var game_active = false
 var critter_dict = {}
-var frozen = false
+var paused = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -26,6 +26,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if(game_active):
 		update_score()
+	if Input.is_action_just_pressed("escape"):
+		processPause()
 
 
 func game_over() -> void:
@@ -77,7 +79,6 @@ func _on_mob_timer_timeout() -> void:
 
 
 func freeze_critters() -> void:
-	frozen = true
 	var critters = get_tree().get_nodes_in_group("critters")
 	for c in critters:
 		critter_dict[c.name] = c.linear_velocity
@@ -86,13 +87,35 @@ func freeze_critters() -> void:
 		
 
 func unfreeze_critters() -> void:
-	frozen = false
 	var critters = get_tree().get_nodes_in_group("critters")
 	for c in critters:
 		c.linear_velocity = critter_dict[c.name]
 	$MobTimer.start()
 
 
+func pause() -> void:
+	paused = true
+	freeze_critters()
+	$ScoreTimer.stop()
+	update_score()
+	Engine.time_scale = 0.0
+	
+	
+func unpause() -> void:
+	paused = false
+	unfreeze_critters()
+	$ScoreTimer.start()
+	update_score()
+	Engine.time_scale = 1
+
+
+func processPause() -> void:
+	if(paused):
+		unpause()
+	else:
+		pause()
+		
+	
 func update_score() -> void:
 	score = Core.calculate_score()
 	$HUD.update_score(score)
