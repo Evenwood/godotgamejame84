@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cc4yw7c361fqa" path="res://art/flyswatter.png" id="2_wnvi2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
-size = Vector2(24, 26)
+size = Vector2(39.1032, 39.1489)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_3c3w1")
@@ -14,5 +14,6 @@ metadata/_edit_group_ = true
 texture = ExtResource("2_wnvi2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -15)
+position = Vector2(0.291933, -14.3428)
+rotation = -0.759218
 shape = SubResource("RectangleShape2D_onrkg")
