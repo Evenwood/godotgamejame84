@@ -14,6 +14,8 @@ func _ready() -> void:
 	if player and player.has_signal("critter_swatted"):
 		player.critter_swatted.connect(_on_critter_swatted)
 		print("Critter connected to player's swat signal")
+		
+		
 	
 	var squish_sound = preload("res://art/squishwet.mp3")
 	audio_player.stream = squish_sound
@@ -89,4 +91,5 @@ func _on_critter_swatted(critter):
 	print("SWATTED: ", critter.name);
 	audio_player.play()
 	critter.queue_free()
-	
+	$death_animation.position = get_viewport().get_mouse_position()
+	$death_animation.play()
