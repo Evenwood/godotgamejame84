@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://0x0wfcn5h6ak"]
+[gd_scene load_steps=12 format=3 uid="uid://0x0wfcn5h6ak"]
 
 [ext_resource type="PackedScene" uid="uid://dhd8sqh56dl4a" path="res://player/Player.tscn" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://cnay2uhntt0la" path="res://main.gd" id="1_uu6xs"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://u6ejj366dopy" path="res://powerups/size_power_up.tscn" id="6_3dxm6"]
 [ext_resource type="Texture2D" uid="uid://b8x20i6iaq8uo" path="res://art/squish1.png" id="7_trn2v"]
 [ext_resource type="Texture2D" uid="uid://b4n8hqbw4cxq0" path="res://art/squish2.png" id="8_03owx"]
+[ext_resource type="Texture2D" uid="uid://7otfqqw8064k" path="res://art/squish2-1.png" id="8_wkp8b"]
 
 [sub_resource type="Curve2D" id="Curve2D_glv2v"]
 _data = {
@@ -22,14 +23,14 @@ animations = [{
 "texture": ExtResource("7_trn2v")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_03owx")
+"texture": ExtResource("8_wkp8b")
 }, {
 "duration": 1.0,
 "texture": ExtResource("8_03owx")
 }],
 "loop": true,
 "name": &"die",
-"speed": 2.0
+"speed": 1.0
 }]
 
 [node name="Main" type="Node"]
