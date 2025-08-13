@@ -10,6 +10,7 @@ var critter_dict = {}
 var paused = false
 
 @onready var player = $Player
+@onready var stats = $Stats
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -28,6 +29,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if(game_active):
 		update_score()
+		stats.update_stats()
 	if Input.is_action_just_pressed("escape"):
 		processPause()
 	if(game_active && paused != true && Input.is_action_just_pressed("swat")):
@@ -38,7 +40,8 @@ func game_over() -> void:
 	game_active = false
 	$ScoreTimer.stop()
 	$MobTimer.stop()
-	$HUD.show_game_over()
+	stats.show()
+	#$HUD.show_game_over()
 	
 func new_game():
 	score = 0
