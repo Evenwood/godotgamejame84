@@ -52,6 +52,8 @@ func _on_mob_timer_timeout() -> void:
 	
 	if player.is_powerup_active("freeze"):
 		return
+	if player.is_powerup_active("smoke_bomb"):
+		return	
 		
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()

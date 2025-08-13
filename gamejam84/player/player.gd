@@ -91,6 +91,8 @@ func _on_powerup_collected(powerup_type: String, duration: float, effect_value: 
 			_apply_size_boost(duration, effect_value)
 		"freeze":
 			_apply_freeze(duration, effect_value)
+		"smoke_bomb":
+			_apply_smoke_bomb(1, effect_value)
 		# Other powerups here
 		_:
 			print("Unknown power-up type: powerup_type")
@@ -154,6 +156,32 @@ func _remove_freeze():
 				c.linear_velocity = critter_dict[c.name]
 				critter_dict.erase(c.name)
 		powerup_expired.emit("freeze")
+
+func _apply_smoke_bomb(duration: float, multiplier: float):
+	# If smoke bomb is already boosted then reset it
+	if "smoke_bomb" in active_powerups:
+		var old_timer = active_powerups["smoke_bomb"]
+		old_timer.queue_free()
+	# Apply freeze effect
+	var critters = get_tree().get_nodes_in_group("critters")
+	for c in critters:
+		critter_swatted.emit(c)
+	# Create timer for power=up duration
+	var timer = Timer.new()
+	timer.wait_time = duration
+	timer.one_shot = true
+	timer.timeout.connect(_remove_smoke_bomb)
+	add_child(timer)
+	timer.start()
+	# Store in active power-ups
+	active_powerups["smoke_bomb"] = timer		
+
+func _remove_smoke_bomb():
+	if "smoke_bomb" in active_powerups:
+		var timer = active_powerups["smoke_bomb"]
+		active_powerups.erase("smoke_bomb")
+		timer.queue_free()
+		powerup_expired.emit("smoke_bomb")
 		
 # Public method to check if a powerup is active
 func is_powerup_active(powerup_type: String) -> bool:

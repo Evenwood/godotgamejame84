@@ -11,6 +11,7 @@ signal powerup_collected(powerup_type: String, duration: float, effect_value: fl
 # Powerup textures
 @export var size_boost_texture: Texture2D
 @export var freeze_texture: Texture2D
+@export var smoke_bomb_texture: Texture2D
 
 var start_position: Vector2
 var time_elapsed: float = 0.0
@@ -42,7 +43,13 @@ func _set_powerup_appearance():
 			else:
 				# Load from file path if not set in inspector
 				sprite.texture = load("res://art/freeze.png")			
-
+		"smoke_bomb":
+			if smoke_bomb_texture:
+				sprite.texture = smoke_bomb_texture
+			else:
+				# Load from file path if not set in inspector
+				sprite.texture = load("res://art/smokebomb.png")
+				
 func _physics_process(delta: float) -> void:
 	time_elapsed += delta
 	var bob_offset = sin(time_elapsed * bob_speed) * bob_height
