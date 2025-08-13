@@ -12,6 +12,9 @@ const COLLECT_POWER_UP_POINTS = 3
 # Tracked Parameters
 var critters_squished = 0
 var power_ups_collected = 0
+var num_swats = 0
+var successful_swats = 0
+var time_elapsed = 0
 
 func calculate_score() -> int:
 	var score = 0

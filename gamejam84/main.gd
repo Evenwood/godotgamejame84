@@ -30,6 +30,8 @@ func _process(delta: float) -> void:
 		update_score()
 	if Input.is_action_just_pressed("escape"):
 		processPause()
+	if(game_active && paused != true && Input.is_action_just_pressed("swat")):
+		Core.num_swats += 1
 
 
 func game_over() -> void:
@@ -133,6 +135,7 @@ func update_score() -> void:
 	
 func _on_score_timer_timeout() -> void:
 	time += 1
+	Core.time_elapsed += 1
 	$HUD.update_time(time)
 	if(time >= Core.TIME_LIMIT):
 		game_over()
@@ -146,6 +149,11 @@ func _on_start_timer_timeout() -> void:
 func _on_critter_swatted(critter):
 	Core.critters_squished += 1
 	print("SWATTED: ", critter.name);
+	print("Points: " + str(Core.calculate_score()))
+	print("Num Swats: " + str(Core.num_swats))
+	print("Successful Swats: " + str(Core.successful_swats))
+	print("Critters Swatted: " + str(Core.critters_squished))
+	print("Power Ups Collected: " + str(Core.power_ups_collected))
 	audio_player.play()
 	critter.queue_free()
 	$death_animation.position = critter.position
