@@ -6,6 +6,8 @@ extends Node
 var score
 var time
 var game_active = false
+var critter_dict = {}
+var paused = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -24,6 +26,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if(game_active):
 		update_score()
+	if Input.is_action_just_pressed("escape"):
+		processPause()
 
 
 func game_over() -> void:
@@ -66,9 +70,54 @@ func _on_mob_timer_timeout() -> void:
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+	
+	var count = 0
+	var critters = get_tree().get_nodes_in_group("critters")
+	for c in critters:
+		count += 1
+	print("There are: " + str(count) + " mobs")
 
 
+func freeze_critters() -> void:
+	var critters = get_tree().get_nodes_in_group("critters")
+	for c in critters:
+		critter_dict[c.name] = c.linear_velocity
+		c.linear_velocity = Vector2(0,0)
+	$MobTimer.stop()
+		
 
+func unfreeze_critters() -> void:
+	var critters = get_tree().get_nodes_in_group("critters")
+	for c in critters:
+		c.linear_velocity = critter_dict[c.name]
+	$MobTimer.start()
+
+
+func pause() -> void:
+	paused = true
+	freeze_critters()
+	$ScoreTimer.stop()
+	update_score()
+	Engine.time_scale = 0.0
+	$Pause.show()
+	
+	
+func unpause() -> void:
+	paused = false
+	$Pause.hide()
+	unfreeze_critters()
+	$ScoreTimer.start()
+	update_score()
+	Engine.time_scale = 1
+
+
+func processPause() -> void:
+	if(paused):
+		unpause()
+	else:
+		pause()
+		
+	
 func update_score() -> void:
 	score = Core.calculate_score()
 	$HUD.update_score(score)
@@ -93,3 +142,7 @@ func _on_critter_swatted(critter):
 	critter.queue_free()
 	$death_animation.position = critter.position
 	$death_animation.play()
+
+
+func _on_resume_from_pause() -> void:
+	processPause()
