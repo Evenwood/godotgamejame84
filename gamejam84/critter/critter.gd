@@ -10,6 +10,7 @@ var critter_type: String = "forwarder"
 var player
 
 # Health bar
+@export var health_bar_scene: PackedScene  # Assign your health bar scene
 var health_bar: HealthBar
 var health_bar_offset: Vector2 = Vector2(0, 8)  # Position below critter
 
@@ -19,6 +20,7 @@ var behavior_handler
 func _ready() -> void:
 	add_to_group("critters")
 	player = get_tree().get_first_node_in_group("player")
+
 
 func _physics_process(delta):
 	if player.is_powerup_active("freeze"):
@@ -75,17 +77,13 @@ func _create_health_bar():
 	# Only show health bar if HP > 1
 	if HP <= 1:
 		return
-		
-	# Create health bar instance
-	health_bar = preload("res://healthbar/health_bar.tscn").instantiate()
-	get_parent().add_child(health_bar)  # Add to same parent as critter
 	
-	# Setup the health bar
-	health_bar.setup(HP)
-	health_bar.global_position = Vector2(
-		global_position.x - (health_bar.size.x / 2),  # Center horizontally
-		global_position.y + health_bar_offset.y       # Position below
-	)
+	if health_bar_scene:
+		health_bar = health_bar_scene.instantiate()
+		# Add to a UI layer or the main scene, not as child of critter
+		get_tree().current_scene.add_child(health_bar)
+		# Pass 'self' as the owner so health bar can clean up automatically
+		health_bar.setup(HP, self)
 
 func _set_critter_sprite():
 	if $AnimatedSprite2D.sprite_frames.has_animation(critter_type):
