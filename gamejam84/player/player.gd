@@ -26,6 +26,7 @@ func start(pos):
 
 func _ready() -> void:
 	add_to_group("player")
+	damage = Core.PLAYER_BASE_DAMAGE
 	
 	# Initialize components
 	movement_handler.setup(self)

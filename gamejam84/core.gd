@@ -18,6 +18,8 @@ const COLLECT_POWER_UP_POINTS = 3
 # Stat Values
 const REG_CRITTER_HP = 1
 const TOUGH_CRITTER_HP = 2
+const PLAYER_BASE_DAMAGE = 1
+var damage_increase = 0
 
 # Tracked Parameters
 var critters_squished = 0
@@ -61,3 +63,4 @@ func reset_state() -> void:
 	successful_swats = 0
 	time_elapsed = 0
 	level = 0
+	damage_increase = 0
