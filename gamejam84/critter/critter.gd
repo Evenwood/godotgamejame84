@@ -3,6 +3,7 @@ extends CharacterBody2D
 @onready var animated_sprite = $AnimatedSprite2D
 @export var speed = 200
 @export var HP = 1
+@export var point_mod = 0
 
 var is_alive: bool = true
 var critter_type: String = "forwarder"
@@ -65,6 +66,7 @@ func setup(type: String, start_position: Vector2, start_radians: float):
 		HP = 2
 	else:
 		HP = 1
+	scale_critter()  # Modify parameters based on current level (Higher Level = Tougher Critters)
 	_set_critter_sprite()
 	_create_behavior_handler(type, start_position, start_radians)
 	_create_health_bar()
@@ -114,7 +116,14 @@ func _create_behavior_handler(type: String, start_position: Vector2, start_radia
 	
 	behavior_handler.setup(self, start_position, start_radians)
 
+func scale_critter():
+	speed += randf_range(0.0, Core.level * Core.VELOCITY_INCREMENT)
+	HP += randi_range(0, Core.level / 2)
+	if(HP > 1):
+		point_mod = HP * 2
+
 func get_swatted(damage):
+	Core.successful_swats += 1
 	if HP <= 0:
 		return
 		

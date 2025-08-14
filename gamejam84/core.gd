@@ -19,8 +19,9 @@ var successful_swats = 0
 var time_elapsed = 0
 
 # Scaling Parameters
-var level = 1
+var level = 0
 const TIMER_INCREMENT = 0.05
+const VELOCITY_INCREMENT = 20.0
 
 func calculate_score() -> int:
 	var score = 0
@@ -34,4 +35,4 @@ func reset_state() -> void:
 	num_swats = 0
 	successful_swats = 0
 	time_elapsed = 0
-	level = 1
+	level = 0
