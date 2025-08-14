@@ -132,8 +132,8 @@ func _apply_freeze(duration: float, multiplier: float):
 	# Apply freeze effect
 	var critters = get_tree().get_nodes_in_group("critters")
 	for c in critters:
-		critter_dict[c.name] = c.linear_velocity
-		c.linear_velocity = Vector2(0,0)
+		critter_dict[c.name] = c.velocity
+		c.velocity = Vector2(0,0)
 	# Create timer for power=up duration
 	var timer = Timer.new()
 	timer.wait_time = duration
@@ -153,7 +153,7 @@ func _remove_freeze():
 		var critters = get_tree().get_nodes_in_group("critters")
 		for c in critters:
 			if c.name in critter_dict:
-				c.linear_velocity = critter_dict[c.name]
+				c.velocity = critter_dict[c.name]
 				critter_dict.erase(c.name)
 		powerup_expired.emit("freeze")
 

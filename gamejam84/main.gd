@@ -1,6 +1,6 @@
 extends Node
 
-@export var mob_scene: PackedScene
+@export var critter_scene: PackedScene
 @onready var audio_player = $AudioStreamPlayer
 
 var score
@@ -11,6 +11,8 @@ var paused = false
 
 @onready var player = $Player
 @onready var stats = $Stats
+
+var critter_types = ["default", "default", "default", "default", "default"]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -55,29 +57,7 @@ func _on_mob_timer_timeout() -> void:
 	if player.is_powerup_active("smoke_bomb"):
 		return	
 		
-	# Create a new instance of the Mob scene.
-	var mob = mob_scene.instantiate()
-
-	# Choose a random location on Path2D.
-	var mob_spawn_location = $MobPath/MobSpawnLocation
-	mob_spawn_location.progress_ratio = randf()
-
-	# Set the mob's position to the random location.
-	mob.position = mob_spawn_location.position
-
-	# Set the mob's direction perpendicular to the path direction.
-	var direction = mob_spawn_location.rotation + PI / 2
-
-	# Add some randomness to the direction.
-	direction += randf_range(-PI / 4, PI / 4)
-	mob.rotation = direction
-
-	# Choose the velocity for the mob.
-	var velocity = Vector2(randf_range(100.0, 350.0), 0.0)
-	mob.linear_velocity = velocity.rotated(direction)
-
-	# Spawn the mob by adding it to the Main scene.
-	add_child(mob)
+	_spawn_critter()
 	
 	var count = 0
 	var critters = get_tree().get_nodes_in_group("critters")
@@ -85,19 +65,34 @@ func _on_mob_timer_timeout() -> void:
 		count += 1
 	print("There are: " + str(count) + " mobs")
 
+func _spawn_critter() -> void:
+	# Choose a random location on Path2D.
+	var mob_spawn_location = $MobPath/MobSpawnLocation
+	mob_spawn_location.progress_ratio = randf()
+	
+	var critter = critter_scene.instantiate()
+	var critter_type = critter_types[randi() % critter_types.size()]
+	# Set the mob's direction perpendicular to the path direction.
+	var directionRadians = mob_spawn_location.rotation + PI / 2
+	# Add some randomness to the direction.
+	directionRadians += randf_range(-PI / 4, PI / 4)
+	critter.setup(critter_type, mob_spawn_location.position, directionRadians)
+
+	# Spawn the mob by adding it to the Main scene.
+	add_child(critter)
 
 func freeze_critters() -> void:
 	var critters = get_tree().get_nodes_in_group("critters")
 	for c in critters:
-		critter_dict[c.name] = c.linear_velocity
-		c.linear_velocity = Vector2(0,0)
+		critter_dict[c.name] = c.velocity
+		c.velocity = Vector2(0,0)
 	$MobTimer.stop()
 		
 
 func unfreeze_critters() -> void:
 	var critters = get_tree().get_nodes_in_group("critters")
 	for c in critters:
-		c.linear_velocity = critter_dict[c.name]
+		c.velocity = critter_dict[c.name]
 	$MobTimer.start()
 
 
