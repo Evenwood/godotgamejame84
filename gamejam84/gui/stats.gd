@@ -4,6 +4,7 @@ signal continue_game()
 signal restart_game()
 
 @onready var critters = $StatPanel/MarginContainer/LabelContainer/CritterLabel
+@onready var bonus = $StatPanel/MarginContainer/LabelContainer/BonusLabel
 @onready var powers = $StatPanel/MarginContainer/LabelContainer/PowerUpLabel
 @onready var swats = $StatPanel/MarginContainer/LabelContainer/SwatLabel
 @onready var succ_swats = $StatPanel/MarginContainer/LabelContainer/SuccSwatLabel
@@ -26,6 +27,7 @@ func _ready() -> void:
 
 func update_stats() -> void:
 	critters.text = "Critters Squished: " + str(Core.critters_squished)
+	bonus.text = "Bonus Points Earned: " + str(Core.critter_bonus_points)
 	powers.text = "Power Ups Collected: " + str(Core.power_ups_collected)
 	swats.text = "Number of Swats: " + str(Core.num_swats)
 	succ_swats.text = "Successful Swats: " + str(Core.successful_swats)

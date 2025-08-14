@@ -35,13 +35,24 @@ theme_override_constants/margin_bottom = 35
 
 [node name="LabelContainer" type="VBoxContainer" parent="StatPanel/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 45
+theme_override_constants/separation = 40
 
 [node name="CritterLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_wd47t")
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 25
 text = "Critters Squished:"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BonusLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+tooltip_text = "Extra strong critters give bonus points!"
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 25
+text = "Bonus Points Earned: "
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
@@ -50,7 +61,7 @@ vertical_alignment = 1
 [node name="PowerUpLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_wd47t")
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 25
 text = "Power Ups Collected: "
 fit_content = true
 autowrap_mode = 0
@@ -60,7 +71,7 @@ vertical_alignment = 1
 [node name="SwatLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_wd47t")
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 25
 text = "Number of Swats: "
 fit_content = true
 autowrap_mode = 0
@@ -70,7 +81,7 @@ vertical_alignment = 1
 [node name="SuccSwatLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_wd47t")
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 25
 text = "Successful Swats: "
 fit_content = true
 autowrap_mode = 0
@@ -80,7 +91,7 @@ vertical_alignment = 1
 [node name="AccuracyLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_wd47t")
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 25
 text = "Accuracy: "
 fit_content = true
 autowrap_mode = 0
@@ -90,7 +101,7 @@ vertical_alignment = 1
 [node name="TimeLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_wd47t")
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 25
 text = "Time Elapsed: "
 fit_content = true
 autowrap_mode = 0
@@ -100,7 +111,7 @@ vertical_alignment = 1
 [node name="LevelLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_wd47t")
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 25
 text = "Current Level: "
 fit_content = true
 autowrap_mode = 0
