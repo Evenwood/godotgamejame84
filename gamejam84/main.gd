@@ -198,7 +198,7 @@ func _do_swat(critter, damage):
 	critter.get_swatted(damage)
 
 	if critter.HP == 0:
-		Core.critters_squished += 1
+		calc_critter_points(critter)
 		critter.queue_free()
 		audio_player.play()
 	
@@ -211,6 +211,12 @@ func _do_swat(critter, damage):
 	
 	#$death_animation.position = critter.position
 	#$death_animation.play()
+
+
+func calc_critter_points(critter) -> void:
+	Core.critters_squished += 1
+	critter.register_squished_critter()
+	Core.critter_bonus_points += critter.point_mod
 	
 func _on_resume_from_pause() -> void:
 	process_pause()

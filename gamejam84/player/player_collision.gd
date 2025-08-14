@@ -23,7 +23,6 @@ func check_collisions():
 			
 			if swat_object.is_in_group("critters"):
 				print("Hit a critter")
-				Core.successful_swats += 1
 				critter_swatted.emit(swat_object)
 				
 			# Handle swat interruption
