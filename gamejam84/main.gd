@@ -22,7 +22,7 @@ func _ready() -> void:
 		player.critter_swatted.connect(_on_critter_swatted)
 		print("Critter connected to player's swat signal")
 		
-		
+	$MobTimer.wait_time = Core.MOB_SPAWN_RATE	
 	
 	var squish_sound = preload("res://art/squishwet.mp3")
 	audio_player.stream = squish_sound
@@ -40,6 +40,7 @@ func _process(delta: float) -> void:
 func new_game():
 	score = 0
 	time = 0
+	$MobTimer.wait_time = Core.MOB_SPAWN_RATE
 	reset_game_state()
 	
 func reset_game_state() -> void:
@@ -96,6 +97,15 @@ func unfreeze_critters() -> void:
 	$MobTimer.start()
 
 
+func increase_level() -> void:
+	Core.level += 1
+	$HUD.show_message("Level Up!")
+	if($MobTimer.wait_time > 0.1):
+		$MobTimer.wait_time -= Core.TIMER_INCREMENT
+		print("Mob Timer Wait Time Now: " + str($MobTimer.wait_time))
+	
+
+
 func pause() -> void:
 	paused = true
 	freeze_critters()
@@ -137,12 +147,16 @@ func process_end_game() -> void:
 func process_continue() -> void:
 	Engine.time_scale = 1
 	time = 0
+	increase_level()
+	await get_tree().create_timer(2.0).timeout
 	reset_game_state()
+
 
 func process_restart() -> void:
 	Core.reset_state()
 	Engine.time_scale = 1
 	new_game()
+	
 	
 func update_score() -> void:
 	score = Core.calculate_score()

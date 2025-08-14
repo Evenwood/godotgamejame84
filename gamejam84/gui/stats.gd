@@ -9,6 +9,7 @@ signal restart_game()
 @onready var succ_swats = $StatPanel/MarginContainer/LabelContainer/SuccSwatLabel
 @onready var accuracy = $StatPanel/MarginContainer/LabelContainer/AccuracyLabel
 @onready var time = $StatPanel/MarginContainer/LabelContainer/TimeLabel
+@onready var level = $StatPanel/MarginContainer/LabelContainer/LevelLabel
 
 func update_stats() -> void:
 	critters.text = "Critters Squished: " + str(Core.critters_squished)
@@ -17,6 +18,7 @@ func update_stats() -> void:
 	succ_swats.text = "Successful Swats: " + str(Core.successful_swats)
 	accuracy.text = "Accuracy: " + calc_accuracy()
 	time.text = "Time Elapsed: " + str(Core.time_elapsed) + " seconds"
+	level.text = "Current Level: " + str(Core.level)
 	
 func calc_accuracy() -> String:
 	var acc: float = 0.0
@@ -31,13 +33,15 @@ func calc_accuracy() -> String:
 
 
 func _on_continue_button_pressed() -> void:
-	continue_game.emit()
 	hide()
+	continue_game.emit()
+	
 
 
 func _on_restart_button_pressed() -> void:
-	restart_game.emit()
 	hide()
+	restart_game.emit()
+	
 
 
 func _on_exit_button_pressed() -> void:
