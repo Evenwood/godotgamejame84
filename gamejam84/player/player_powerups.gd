@@ -29,11 +29,13 @@ func activate_powerup(powerup_type: String, duration: float, effect_value: float
 func _apply_size_boost(duration: float, multiplier: float):
 	_remove_existing_powerup("size_boost")
 	player.scale = original_scale * multiplier
+	player.damage = 2
 	_create_powerup_timer("size_boost", duration, _remove_size_boost)
 
 func _remove_size_boost():
 	_cleanup_powerup("size_boost")
 	player.scale = original_scale
+	player.damage = 1
 	powerup_expired.emit("size_boost")
 
 func _apply_freeze(duration: float, multiplier: float):
@@ -53,13 +55,19 @@ func _remove_freeze():
 			critter_dict.erase(c.name)
 	powerup_expired.emit("freeze")
 
+#func _apply_smoke_bomb(duration: float, multiplier: float):
+#	_remove_existing_powerup("smoke_bomb")
+#	var critters = player.get_tree().get_nodes_in_group("critters")
+#	for c in critters:
+#		player.critter_swatted.emit(c, player.damage)
+#	_create_powerup_timer("smoke_bomb", duration, _remove_smoke_bomb)
 func _apply_smoke_bomb(duration: float, multiplier: float):
 	_remove_existing_powerup("smoke_bomb")
 	var critters = player.get_tree().get_nodes_in_group("critters")
 	for c in critters:
-		player.critter_swatted.emit(c)
+		player.smoke_bomb_hit.emit(c, player.damage)
 	_create_powerup_timer("smoke_bomb", duration, _remove_smoke_bomb)
-
+	
 func _remove_smoke_bomb():
 	_cleanup_powerup("smoke_bomb")
 	powerup_expired.emit("smoke_bomb")

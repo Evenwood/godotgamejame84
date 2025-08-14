@@ -2,9 +2,15 @@ extends CharacterBody2D
 
 @onready var animated_sprite = $AnimatedSprite2D
 @export var speed = 200
+@export var HP = 1
+
 var is_alive: bool = true
 var critter_type: String = "forwarder"
 var player
+
+# Health bar
+var health_bar: HealthBar
+var health_bar_offset: Vector2 = Vector2(0, 8)  # Position below critter
 
 # Behavior handler - all movement is delegated to this
 var behavior_handler
@@ -19,19 +25,65 @@ func _physics_process(delta):
 		
 	if behavior_handler:
 		behavior_handler.process_behavior(delta)
-	
+	# Update health bar position
+	_update_health_bar_position()
 	move_and_slide()
-
+	
+func _update_health_bar_position():
+	# Get current frame texture to determine sprite size
+	var current_texture = animated_sprite.sprite_frames.get_frame_texture(animated_sprite.animation, animated_sprite.frame)
+	var sprite_height: float = 32.0  # Default fallback
+	var sprite_width: float = 32.0  # Default fallback
+	
+	if current_texture:
+		sprite_height = current_texture.get_size().y
+		sprite_width = current_texture.get_size().x
+	
+	# Calculate position below the scaled sprite
+	var scaled_height = sprite_height * scale.y
+	var scaled_width = sprite_width * scale.x
+	var critter_bottom = global_position.y
+	
+	if health_bar:
+		health_bar.global_position = Vector2(
+			global_position.x - (scaled_width / 2) - (health_bar.size.x / 2),
+			critter_bottom + 5
+		)
+	
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	# Clean up health bar when critter exits screen
+	if health_bar:
+		health_bar.queue_free()
 	queue_free()
 	
 func setup(type: String, start_position: Vector2, start_radians: float):
 	critter_type = type
 	add_to_group("critters_" + critter_type)
 	speed = randf_range(100.0, 500.0)
-	
+	# Set HP based on critter type
+	if critter_type == "chaser":
+		HP = 2
+	else:
+		HP = 1
 	_set_critter_sprite()
 	_create_behavior_handler(type, start_position, start_radians)
+	_create_health_bar()
+	
+func _create_health_bar():
+	# Only show health bar if HP > 1
+	if HP <= 1:
+		return
+		
+	# Create health bar instance
+	health_bar = preload("res://healthbar/health_bar.tscn").instantiate()
+	get_parent().add_child(health_bar)  # Add to same parent as critter
+	
+	# Setup the health bar
+	health_bar.setup(HP)
+	health_bar.global_position = Vector2(
+		global_position.x - (health_bar.size.x / 2),  # Center horizontally
+		global_position.y + health_bar_offset.y       # Position below
+	)
 
 func _set_critter_sprite():
 	if $AnimatedSprite2D.sprite_frames.has_animation(critter_type):
@@ -62,15 +114,28 @@ func _create_behavior_handler(type: String, start_position: Vector2, start_radia
 	
 	behavior_handler.setup(self, start_position, start_radians)
 
-func get_swatted():
-	if not is_alive:
+func get_swatted(damage):
+	if HP <= 0:
 		return
+		
+	HP -= damage
+	
+	# Update health bar
+	if health_bar:
+		health_bar.update_health(HP)
+	
+	if HP <= 0:
+		_die()
 
-	print("Critter got swatted!")
-	is_alive = false
+func _die():
 	_create_critter_particles()
 	animated_sprite.visible = false
 	
+	# Remove health bar
+	if health_bar:
+		health_bar.queue_free()
+		health_bar = null
+			
 func _create_critter_particles():
 	var piece_count = randi_range(3, 8)
 	var explosion_force = 400.0

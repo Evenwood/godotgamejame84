@@ -12,6 +12,8 @@ var paused = false
 @onready var player = $Player
 @onready var stats = $Stats
 
+var current_swat_has_hit: bool = false
+
 var critter_types = [\
 	"forwarder", "zigzagger", "spiraler", "faker", "chaser",\
 	"forwarder", "zigzagger", "spiraler", "faker", "chaser"\
@@ -24,6 +26,8 @@ func _ready() -> void:
 	if player and player.has_signal("critter_swatted"):
 		player.critter_swatted.connect(_on_critter_swatted)
 		print("Critter connected to player's swat signal")
+	player.swat_started.connect(_on_swat_started)
+	player.smoke_bomb_hit.connect(_on_smoke_bomb_hit)
 		
 	$MobTimer.wait_time = Core.MOB_SPAWN_RATE	
 	
@@ -53,7 +57,10 @@ func reset_game_state() -> void:
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	game_active = true
-
+	
+func _on_swat_started(start_position: Vector2):
+	current_swat_has_hit = false
+	
 func _on_mob_timer_timeout() -> void:
 	
 	if player.is_powerup_active("freeze"):
@@ -172,36 +179,44 @@ func _on_score_timer_timeout() -> void:
 	$HUD.update_time(time)
 	if(time >= Core.TIME_LIMIT):
 		process_end_game()
-		
-
 
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
+		
+func _on_critter_swatted(critter, damage):
+	if current_swat_has_hit:
+		return
+	current_swat_has_hit = true
+
+	_do_swat(critter, damage)
 	
+func _on_smoke_bomb_hit(critter, damage):
+	_do_swat(critter, damage)
+
+func _do_swat(critter, damage):
+	critter.get_swatted(damage)
+
+	if critter.HP == 0:
+		Core.critters_squished += 1
+		critter.queue_free()
+		audio_player.play()
 	
-func _on_critter_swatted(critter):
-	Core.critters_squished += 1
 	print("SWATTED: ", critter.name);
 	print("Points: " + str(Core.calculate_score()))
 	print("Num Swats: " + str(Core.num_swats))
 	print("Successful Swats: " + str(Core.successful_swats))
 	print("Critters Swatted: " + str(Core.critters_squished))
 	print("Power Ups Collected: " + str(Core.power_ups_collected))
-	audio_player.play()
+	
 	#$death_animation.position = critter.position
 	#$death_animation.play()
-	critter.get_swatted()
-	critter.queue_free()
-
-
+	
 func _on_resume_from_pause() -> void:
 	process_pause()
 
-
 func _on_stats_continue_game() -> void:
 	process_continue()
-
 
 func _on_stats_restart_game() -> void:
 	process_restart()

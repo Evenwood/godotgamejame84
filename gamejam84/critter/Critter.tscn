@@ -106,12 +106,11 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dbnwe"]
-radius = 7.0
+radius = 9.0
 
 [node name="Critter" type="CharacterBody2D"]
 collision_mask = 0
 script = ExtResource("1_fkld6")
-speed = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-14, -13)
@@ -119,7 +118,7 @@ sprite_frames = SubResource("SpriteFrames_c16uf")
 animation = &"chaser"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-14, -12)
+position = Vector2(-14, -13)
 shape = SubResource("CircleShape2D_dbnwe")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
