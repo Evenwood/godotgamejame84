@@ -199,6 +199,7 @@ func _do_swat(critter, damage):
 
 	if critter.HP == 0:
 		Core.critters_squished += 1
+		Core.successful_swats += 1
 		critter.queue_free()
 		audio_player.play()
 	
