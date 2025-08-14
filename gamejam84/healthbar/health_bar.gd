@@ -12,14 +12,19 @@ class_name HealthBar
 var max_hp: int = 1
 var current_hp: int = 1
 var segments: Array[ColorRect] = []
+var owner_node: Node = null  # Reference to the critter/owner
 
 func _ready():
 	# This will be called when the health bar is first created
 	pass
 
-func setup(maximum_health: int):
+func setup(maximum_health: int, owner: Node = null):
 	max_hp = maximum_health
 	current_hp = maximum_health
+	owner_node = owner
+	# Connect to owner's tree_exiting signal if owner is provided
+	if owner_node:
+		owner_node.tree_exiting.connect(_on_owner_destroyed)
 	_create_segments()
 
 func _create_segments():
@@ -81,3 +86,13 @@ func get_current_hp() -> int:
 
 func is_dead() -> bool:
 	return current_hp <= 0
+	
+# Clean up when owner is destroyed
+func _on_owner_destroyed():
+	queue_free()
+
+# Manual cleanup function
+func cleanup():
+	if owner_node and owner_node.tree_exiting.is_connected(_on_owner_destroyed):
+		owner_node.tree_exiting.disconnect(_on_owner_destroyed)
+	queue_free()
