@@ -4,15 +4,18 @@ extends CharacterBody2D
 signal swat_started(start_position: Vector2)
 signal swat_completed(final_position: Vector2)
 signal swat_something(swat_object, swat_point: Vector2)
-signal critter_swatted(critter)
+signal critter_swatted(critter, damage)
 signal player_collided(collision_object, collision_point: Vector2)
 signal powerup_activated(powerup_type: String)
 signal powerup_expired(powerup_type: String)
+signal smoke_bomb_hit(critter, damage)
 
 # Core components - delegate responsibilities
 @onready var movement_handler = PlayerMovement.new()
 @onready var powerup_handler = PlayerPowerups.new()
 @onready var boundary_handler = PlayerBoundaries.new()
+
+@export var damage = 1
 
 var collision_handler: PlayerCollision
 
@@ -47,8 +50,10 @@ func _connect_component_signals():
 	
 	# Forward collision signals
 	collision_handler.player_collided.connect(func(obj, point): player_collided.emit(obj, point))
-	collision_handler.swat_something.connect(func(obj, point): swat_something.emit(obj, point))
-	collision_handler.critter_swatted.connect(func(critter): critter_swatted.emit(critter))
+	collision_handler.swat_something.connect(\
+		func(obj, point): swat_something.emit(obj, point))
+	collision_handler.critter_swatted.connect(\
+		func(critter): critter_swatted.emit(critter, damage))
 	collision_handler.swat_interrupted.connect(_on_swat_interrupted)
 	
 func _connect_to_powerups():
