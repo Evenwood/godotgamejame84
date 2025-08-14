@@ -2,18 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c1twi1peraaeq" path="res://gui/stats.gd" id="1_ut4vt"]
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_wd47t"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ycpp"]
-bg_color = Color(0.0693711, 0.280649, 0.363005, 0.713726)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0.0117647, 0.141176, 0.145098, 0.898039)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[ext_resource type="StyleBox" uid="uid://d32ynww7y148n" path="res://gui/statstyle.tres" id="2_cap47"]
 
 [node name="Stats" type="CanvasLayer"]
 script = ExtResource("1_ut4vt")
@@ -30,7 +19,7 @@ offset_right = 290.0
 offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2ycpp")
+theme_override_styles/panel = ExtResource("2_cap47")
 
 [node name="MarginContainer" type="MarginContainer" parent="StatPanel"]
 layout_mode = 1
@@ -139,6 +128,90 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_wd47t")
 theme_override_font_sizes/font_size = 30
 text = "Exit"
+
+[node name="CritterPanel" type="Panel" parent="."]
+offset_left = 867.0
+offset_top = 35.0
+offset_right = 1117.0
+offset_bottom = 385.0
+theme_override_styles/panel = ExtResource("2_cap47")
+
+[node name="MarginContainer" type="MarginContainer" parent="CritterPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="LabelContainer" type="VBoxContainer" parent="CritterPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="TitleLabel" type="RichTextLabel" parent="CritterPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 0.126385, 0.333605, 1)
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 20
+text = "Critters"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ForwarderLabel" type="RichTextLabel" parent="CritterPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 15
+text = "Forwarders: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ZigzaggerLabel" type="RichTextLabel" parent="CritterPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 15
+text = "Zigzaggers: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpiralerLabel" type="RichTextLabel" parent="CritterPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 15
+text = "Spiralers: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FakerLabel" type="RichTextLabel" parent="CritterPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 15
+text = "Fakers: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChaserLabel" type="RichTextLabel" parent="CritterPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 15
+text = "Chasers: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/RestartButton" to="." method="_on_restart_button_pressed"]

@@ -63,9 +63,9 @@ func setup(type: String, start_position: Vector2, start_radians: float):
 	speed = randf_range(100.0, 500.0)
 	# Set HP based on critter type
 	if critter_type == "chaser":
-		HP = 2
+		HP = Core.TOUGH_CRITTER_HP
 	else:
-		HP = 1
+		HP = Core.REG_CRITTER_HP
 	scale_critter()  # Modify parameters based on current level (Higher Level = Tougher Critters)
 	_set_critter_sprite()
 	_create_behavior_handler(type, start_position, start_radians)
@@ -119,8 +119,23 @@ func _create_behavior_handler(type: String, start_position: Vector2, start_radia
 func scale_critter():
 	speed += randf_range(0.0, Core.level * Core.VELOCITY_INCREMENT)
 	HP += randi_range(0, Core.level / 2)
-	if(HP > 1):
-		point_mod = HP * 2
+	if(HP > Core.TOUGH_CRITTER_HP):
+		point_mod = (HP - Core.TOUGH_CRITTER_HP) * 2
+		
+func register_squished_critter():
+	match critter_type:
+		"forwarder":
+			Core.forwarders += 1
+		"zigzagger":
+			Core.zigzaggers += 1
+		"spiraler":
+			Core.spiralers += 1
+		"faker":
+			Core.fakers += 1
+		"chaser":
+			Core.chasers += 1
+		_:
+			Core.forwarders += 1
 
 func get_swatted(damage):
 	Core.successful_swats += 1
