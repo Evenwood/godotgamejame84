@@ -12,7 +12,10 @@ var paused = false
 @onready var player = $Player
 @onready var stats = $Stats
 
-var critter_types = ["default", "default", "default", "default", "default"]
+var critter_types = [\
+	"forwarder", "zigzagger", "spiraler", "faker", "faker",\
+	"forwarder", "zigzagger", "spiraler", "faker", "faker"\
+	]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -72,6 +75,7 @@ func _spawn_critter() -> void:
 	mob_spawn_location.progress_ratio = randf()
 	
 	var critter = critter_scene.instantiate()
+	# Get a random critter type
 	var critter_type = critter_types[randi() % critter_types.size()]
 	# Set the mob's direction perpendicular to the path direction.
 	var directionRadians = mob_spawn_location.rotation + PI / 2
