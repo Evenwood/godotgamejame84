@@ -13,8 +13,8 @@ var paused = false
 @onready var stats = $Stats
 
 var critter_types = [\
-	"forwarder", "zigzagger", "spiraler", "faker", "faker",\
-	"forwarder", "zigzagger", "spiraler", "faker", "faker"\
+	"forwarder", "zigzagger", "spiraler", "faker", "chaser",\
+	"forwarder", "zigzagger", "spiraler", "faker", "chaser"\
 	]
 
 # Called when the node enters the scene tree for the first time.
@@ -81,10 +81,9 @@ func _spawn_critter() -> void:
 	var directionRadians = mob_spawn_location.rotation + PI / 2
 	# Add some randomness to the direction.
 	directionRadians += randf_range(-PI / 4, PI / 4)
-	critter.setup(critter_type, mob_spawn_location.position, directionRadians)
-
-	# Spawn the mob by adding it to the Main scene.
+	# Add the critter to the scene before setting it up.
 	add_child(critter)
+	critter.setup(critter_type, mob_spawn_location.position, directionRadians)
 
 func freeze_critters() -> void:
 	var critters = get_tree().get_nodes_in_group("critters")

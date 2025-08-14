@@ -54,6 +54,9 @@ func _create_behavior_handler(type: String, start_position: Vector2, start_radia
 			behavior_handler = SpiralerBehavior.new()
 		"faker":
 			behavior_handler = FakerBehavior.new()
+		"chaser":
+			behavior_handler = ChaserBehavior.new()
+			scale = Vector2(2.0, 2.0)
 		_:
 			behavior_handler = ForwarderBehavior.new()
 	
@@ -86,7 +89,8 @@ func _create_sprite_piece() -> RigidBody2D:
 	var piece = RigidBody2D.new()
 	var sprite = Sprite2D.new()
 
-	sprite.texture = animated_sprite.sprite_frames.get_frame_texture(animated_sprite.animation, animated_sprite.frame)
+	sprite.texture = animated_sprite.sprite_frames.get_frame_texture(\
+		animated_sprite.animation, animated_sprite.frame)
 	sprite.scale = Vector2(0.5, 0.5)
 	sprite.modulate = Color(1, 1, 1, 0.8)
 
