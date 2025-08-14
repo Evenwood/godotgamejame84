@@ -1,9 +1,11 @@
 extends Node
 
 
-const TIME_LIMIT = 120
+const TIME_LIMIT = 10
 const MAIN_MESSAGE = "Squish the Critters!!!"
 const TITLE = "CREEPY CRITTER SQUISHER"
+
+const MOB_SPAWN_RATE = 0.5
 
 # Point Values
 const CRITTER_SQUISH_POINTS = 1
@@ -16,6 +18,10 @@ var num_swats = 0
 var successful_swats = 0
 var time_elapsed = 0
 
+# Scaling Parameters
+var level = 1
+const TIMER_INCREMENT = 0.05
+
 func calculate_score() -> int:
 	var score = 0
 	score += CRITTER_SQUISH_POINTS * critters_squished
@@ -27,4 +33,5 @@ func reset_state() -> void:
 	power_ups_collected = 0
 	num_swats = 0
 	successful_swats = 0
-	time_elapsed = 1
+	time_elapsed = 0
+	level = 1
