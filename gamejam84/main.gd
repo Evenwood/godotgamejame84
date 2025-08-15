@@ -42,10 +42,12 @@ func _process(delta: float) -> void:
 	if(game_active):
 		update_score()
 		stats.update_stats()
-	if (game_active && Input.is_action_just_pressed("escape")):
+	if(game_active && Input.is_action_just_pressed("escape")):
 		process_pause()
 	if(game_active && paused != true && Input.is_action_just_pressed("swat")):
 		Core.num_swats += 1
+	if(game_active && paused != true && Input.is_action_just_pressed("return")):
+		$Player.start($StartPosition.position)
 	
 func new_game():
 	score = 0
@@ -161,9 +163,16 @@ func process_end_game() -> void:
 	await get_tree().create_timer(2.0).timeout
 	Engine.time_scale = 0
 	update_score()
+	display_stat_screen()
+
+
+func display_stat_screen() -> void:
 	stats.update_stats()
+	stats.clear_view()
 	stats.show()
-	
+	stats.create_view()
+
+
 func process_continue() -> void:
 	Engine.time_scale = 1
 	time = 0

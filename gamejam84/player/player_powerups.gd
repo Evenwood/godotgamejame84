@@ -28,13 +28,13 @@ func activate_powerup(powerup_type: String, duration: float, effect_value: float
 
 func _apply_size_boost(duration: float, multiplier: float):
 	_remove_existing_powerup("size_boost")
-	player.scale = original_scale * multiplier
+	player.scale = (original_scale + (Core.size_increase * Core.SCALE_INCREMENT)) * multiplier
 	player.damage *= 2
 	_create_powerup_timer("size_boost", duration, _remove_size_boost)
 
 func _remove_size_boost():
 	_cleanup_powerup("size_boost")
-	player.scale = original_scale
+	player.scale = original_scale + (Core.size_increase * Core.SCALE_INCREMENT)
 	player.damage /= 2
 	powerup_expired.emit("size_boost")
 

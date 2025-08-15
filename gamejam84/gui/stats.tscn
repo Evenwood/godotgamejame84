@@ -35,7 +35,7 @@ theme_override_constants/margin_bottom = 35
 
 [node name="LabelContainer" type="VBoxContainer" parent="StatPanel/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 45
 
 [node name="CritterLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
 layout_mode = 2
@@ -103,16 +103,6 @@ layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_wd47t")
 theme_override_font_sizes/normal_font_size = 25
 text = "Time Elapsed: "
-fit_content = true
-autowrap_mode = 0
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LevelLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
-layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("1_wd47t")
-theme_override_font_sizes/normal_font_size = 25
-text = "Current Level: "
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
@@ -223,6 +213,83 @@ fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="LevelPanel" type="Panel" parent="."]
+offset_left = 35.0
+offset_top = 35.0
+offset_right = 285.0
+offset_bottom = 385.0
+theme_override_styles/panel = ExtResource("2_cap47")
+
+[node name="MarginContainer" type="MarginContainer" parent="LevelPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="LabelContainer" type="VBoxContainer" parent="LevelPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="TitleLabel" type="RichTextLabel" parent="LevelPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 0.126385, 0.333605, 1)
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 20
+text = "Level-Ups"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelLabel" type="RichTextLabel" parent="LevelPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 15
+text = "Current Level: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DamageLabel" type="RichTextLabel" parent="LevelPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 15
+text = "Damage: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SizeLabel" type="RichTextLabel" parent="LevelPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 15
+text = "Size: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LuckLabel" type="RichTextLabel" parent="LevelPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 15
+text = "Luck: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatTimer" type="Timer" parent="."]
+ignore_time_scale = true
 
 [connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/RestartButton" to="." method="_on_restart_button_pressed"]

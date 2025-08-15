@@ -20,17 +20,22 @@ func _ready():
 
 func update_spawner() -> void:
 	spawn_timer.stop()
-	spawn_timer.wait_time = spawn_interval - (Core.luck_increase * Core.LUCK_INCREMENT)
+	if((Core.luck_increase * Core.LUCK_INCREMENT) >= Core.POWER_UP_SPAWN_RATE):
+		spawn_timer.wait_time = 1.0
+	else:
+		spawn_timer.wait_time = spawn_interval - (Core.luck_increase * Core.LUCK_INCREMENT)
 	if(spawn_timer.wait_time < 1.0):
 		spawn_timer.wait_time = 1.0
-	max_powerups += Core.luck_increase	
+	print("Power Up Interval Now: " + str(spawn_timer.wait_time))
+	max_powerups += Core.luck_increase
+	print("Max Power Ups Now: " + str(max_powerups))
 	spawn_timer.start()
 
 func reset_spawner() -> void:
 	spawn_timer.stop()
 	spawn_timer.wait_time = Core.POWER_UP_SPAWN_RATE
 	max_powerups = Core.MAX_POWER_UPS
-	spawn_timer.start()		
+	spawn_timer.start()
 
 func _spawn_powerup():
 	# Randomly choose powerup type
@@ -38,7 +43,7 @@ func _spawn_powerup():
 	var group_name = "powerup_" + random_type
 	# Check limits per type
 	var existing_count = get_tree().get_nodes_in_group(group_name).size()
-	if existing_count >= 1:  # Only 1 of each type
+	if existing_count >= (1 + Core.luck_increase):  # Only 1 of each type
 		return
 		
 	var current_powerups = get_tree().get_nodes_in_group("powerups")
