@@ -71,6 +71,9 @@ func _connect_to_powerups():
 	var powerups = get_tree().get_nodes_in_group("powerups")
 	for powerup in powerups:
 		if powerup.has_signal("powerup_collected"):
+			# Disconnect first to avoid duplicates
+			if powerup.powerup_collected.is_connected(_on_powerup_collected):
+				powerup.powerup_collected.disconnect(_on_powerup_collected)
 			powerup.powerup_collected.connect(_on_powerup_collected)
 
 func _on_powerup_collected(powerup_type: String, duration: float, effect_value: float):
