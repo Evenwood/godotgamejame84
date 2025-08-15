@@ -135,15 +135,17 @@ func register_squished_critter():
 		_:
 			Core.forwarders += 1
 
-func get_swatted(damage):
+func get_swatted(damage) -> int:
+	# Return actual damage dealt, 0 if no damage
 	if HP <= 0:
-		return false
+		return 0  # Already dead
 		
+	var damage_dealt = damage
 	Core.successful_swats += 1
-	
+
 	print("Was Swatted")
-	print("Damage Dealt: " + str(damage))
-	HP -= damage
+	print("Damage Dealt: " + str(damage_dealt))
+	HP -= damage_dealt
 	
 	# Update health bar
 	if health_bar:
@@ -151,7 +153,8 @@ func get_swatted(damage):
 	
 	if HP <= 0:
 		_die()
-	return true
+		
+	return damage_dealt
 	
 func _die():
 	$CollisionShape2D.disabled = true

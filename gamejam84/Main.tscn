@@ -15,9 +15,9 @@
 
 [sub_resource type="Curve2D" id="Curve2D_glv2v"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 1148, 0, 0, 0, 0, 0, 1151, 646, 0, 0, 0, 0, -1, 646, 0, 0, 0, 0, -1, -1)
+"points": PackedVector2Array(0, 0, 0, 0, 2.07061, 16.4311, 0, 0, 0, 0, 1134.72, 16.4311, 0, 0, 0, 0, 1135.74, 634.721, 0, 0, 0, 0, -1, 646, 0, 0, 0, 0, -2, 322, 0, 0, 0, 0, 1.05296, 15.4057)
 }
-point_count = 5
+point_count = 6
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3dxm6"]
 animations = [{
@@ -56,11 +56,12 @@ one_shot = true
 position = Vector2(571, 457)
 
 [node name="MobPath" type="Path2D" parent="."]
+position = Vector2(19.9653, -0.0247295)
+scale = Vector2(0.982654, 0.97527)
 curve = SubResource("Curve2D_glv2v")
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
-position = Vector2(-1, -1)
-rotation = 0.000870322
+position = Vector2(2.07061, 16.4311)
 
 [node name="HUD" parent="." instance=ExtResource("4_cm0pq")]
 

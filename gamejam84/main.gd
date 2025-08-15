@@ -12,7 +12,6 @@ var paused = false
 @onready var player = $Player
 @onready var stats = $Stats
 
-var current_swat_has_hit: bool = false
 var squish_sound
 var pop_sound
 
@@ -28,7 +27,7 @@ func _ready() -> void:
 	if player and player.has_signal("critter_swatted"):
 		player.critter_swatted.connect(_on_critter_swatted)
 		print("Critter connected to player's swat signal")
-	player.swat_started.connect(_on_swat_started)
+	#player.swat_started.connect(_on_swat_started)
 	player.smoke_bomb_hit.connect(_on_smoke_bomb_hit)
 		
 	$MobTimer.wait_time = Core.MOB_SPAWN_RATE	
@@ -65,8 +64,8 @@ func reset_game_state() -> void:
 	$StartTimer.start()
 	game_active = true
 	
-func _on_swat_started(start_position: Vector2):
-	current_swat_has_hit = false
+#func _on_swat_started(start_position: Vector2):
+#	current_swat_has_hit = false
 	
 func _on_mob_timer_timeout() -> void:
 	
@@ -212,26 +211,26 @@ func _on_start_timer_timeout() -> void:
 	$ScoreTimer.start()
 		
 func _on_critter_swatted(critter, damage):
-	if current_swat_has_hit:
-		return
-	current_swat_has_hit = true
-
 	_do_swat(critter, damage)
 	
 func _on_smoke_bomb_hit(critter, damage):
 	_do_swat(critter, damage)
-
+		
 func _do_swat(critter, damage):
+	# Validate critter is still alive before processing
+	if not is_instance_valid(critter) or critter.HP <= 0:
+		return
+
 	var is_critical_hit = calc_crit()
 	
-	if(is_critical_hit):
+	if is_critical_hit:
 		damage *= (2 + (Core.luck_increase) / 3)
+
+	var damage_dealt = critter.get_swatted(damage)
 	
-	print("Swat")
-	var alive: bool = critter.get_swatted(damage)
-	if (alive && is_critical_hit):
+	if damage_dealt > 0 && is_critical_hit:
 		_show_floating_value(damage, critter.global_position, Color.YELLOW)
-	elif alive:
+	elif damage_dealt > 0:
 		_show_floating_value(damage, critter.global_position, Color.RED)
 
 	if critter.HP <= 0:
@@ -239,8 +238,6 @@ func _do_swat(critter, damage):
 		critter.queue_free()
 		audio_player.stream = squish_sound
 		audio_player.play()
-		#$death_animation.position = critter.position
-		#$death_animation.play()
 	else:
 		audio_player.stream = pop_sound
 		audio_player.play()

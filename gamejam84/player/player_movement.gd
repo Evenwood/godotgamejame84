@@ -24,21 +24,42 @@ var swat_direction: Vector2
 var pause_timer: float = 0.0
 var force_stop: bool = false  # Emergency stop flag
 
+var play_area: Rect2
+var boundary_margin: float = 20.0
+
 func setup(player_ref: CharacterBody2D):
 	player = player_ref
+	_setup_play_area(player)
 
+func _setup_play_area(player: CharacterBody2D):
+	var viewport = player.get_viewport().get_visible_rect()
+	play_area = Rect2(
+		boundary_margin,
+		boundary_margin,
+		viewport.size.x - (boundary_margin * 2),
+		viewport.size.y - boundary_margin
+	)
+	
 func handle_input(event) -> void:
-	if Input.is_action_just_pressed("swat") and current_state == PlayerState.FOLLOWING_MOUSE:
-		target_position = player.get_global_mouse_position()
-		swat_direction = (target_position - player.global_position).normalized()
+	if Input.is_action_just_pressed("swat"):
+		var mouse_position = player.get_global_mouse_position()
 		
-		# Validate swat direction
-		if swat_direction.length() < 0.1:
-			return  # Don't swat if too close to mouse
+		# Only swat if mouse is within play area
+		if not play_area.has_point(mouse_position):
+			return  # Don't swat if mouse is outside bounds
+		
+		if 	current_state == PlayerState.FOLLOWING_MOUSE:
+			target_position = mouse_position
+			swat_direction = (target_position - player.global_position).normalized()
 			
-		current_state = PlayerState.SWATTING
-		force_stop = false
-		swat_started.emit(target_position)
+			# Validate swat direction
+			if swat_direction.length() < 0.1:
+				return  # Don't swat if too close to mouse
+				
+			current_state = PlayerState.SWATTING
+			force_stop = false
+			swat_started.emit(target_position)
+		
 
 func process_movement(delta: float) -> void:
 	# Emergency velocity check - prevents runaway velocity
@@ -58,7 +79,7 @@ func process_movement(delta: float) -> void:
 		PlayerState.FOLLOWING_MOUSE:
 			_follow_mouse(delta)
 		PlayerState.SWATTING:
-			_swat(delta)
+			_move_to_swat(delta)
 		PlayerState.SWAT_PAUSE:
 			_swat_pause(delta)
 
@@ -78,20 +99,33 @@ func _follow_mouse(delta: float) -> void:
 	if player.velocity.length() > follow_speed * 1.5:
 		player.velocity = player.velocity.normalized() * follow_speed
 		
-func _swat(delta: float) -> void:
+func _move_to_swat(delta: float) -> void:
 	player.get_node("CollisionShape2D").disabled = false
 	var start_position = player.global_position
 	var distance_to_target = start_position.distance_to(target_position)
 	
-	if distance_to_target < 15.0:
+	if distance_to_target < 10.0:
 		player.velocity = Vector2.ZERO
 		player.global_position = target_position
 		current_state = PlayerState.FOLLOWING_MOUSE
 		swat_completed.emit(target_position)
 		return
 	
-	var acceleration_vector = swat_direction * swat_acceleration * delta
-	player.velocity += acceleration_vector
+	#Recalculate direction every frame toward the target
+	#var current_direction = (target_position - player.global_position).normalized()
+	#var acceleration_vector = current_direction * swat_acceleration * delta
+	#player.velocity += acceleration_vector
+	
+		# Calculate desired velocity toward target
+	var direction_to_target = (target_position - player.global_position).normalized()
+	var desired_velocity = direction_to_target * max_swat_speed
+	
+	# Lerp toward desired velocity instead of adding acceleration
+	var lerp_speed = 15.0  # Adjust this to control how quickly it reaches max speed
+	player.velocity = player.velocity.lerp(desired_velocity, lerp_speed * delta)
+	
+	#var acceleration_vector = swat_direction * swat_acceleration * delta
+	#player.velocity += acceleration_vector
 	
 	if player.velocity.length() > max_swat_speed:
 		player.velocity = player.velocity.normalized() * max_swat_speed

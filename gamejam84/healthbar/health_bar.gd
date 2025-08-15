@@ -2,7 +2,7 @@ extends Control
 class_name HealthBar
 
 # Settings
-@export var segment_width: float = 10.0
+@export var segment_width: float = 5.0
 @export var segment_height: float = 5.0
 @export var segment_spacing: float = 2.0
 @export var full_color: Color = Color.GREEN
