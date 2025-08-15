@@ -82,8 +82,7 @@ func get_powerup_time_remaining(powerup_type: String) -> float:
 	return powerup_handler.get_powerup_time_remaining(powerup_type)
 
 func _on_swat_interrupted(collision_point: Vector2):
-	# Handle the swat interruption here in main player
+	# Use the movement handler's interrupt method instead
+	movement_handler.interrupt_swat()
 	swat_completed.emit(collision_point)
-	velocity = Vector2.ZERO
-	movement_handler.start_swat_pause()
 	$CollisionShape2D.disabled = true
