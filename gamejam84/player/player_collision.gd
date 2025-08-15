@@ -21,20 +21,20 @@ func _get_existing_swat_detector():
 	swat_detector = player.get_node("SwatDetector")  # Adjust path as needed
 	
 	if not swat_detector:
-		push_error("SwatDetector Area2D not found as child of Player!")
+		print("SwatDetector Area2D not found as child of Player!")
 		return
 	
 	# Set up collision layers/masks if not set in editor
-	if swat_detector.collision_layer == 1:  # Default value, probably not set
-		swat_detector.collision_layer = 0  # Don't collide with anything
-		swat_detector.collision_mask = 1   
+	#if swat_detector.collision_layer == 1:  # Default value, probably not set
+	#	swat_detector.collision_layer = 0  # Don't collide with anything
+	#	swat_detector.collision_mask = 1   
 	
 	# Get the collision shape and initially disable it
 	var swat_collision = swat_detector.get_node("CollisionShape2D")
 	if swat_collision:
 		swat_collision.disabled = true
 	else:
-		push_error("SwatDetector is missing CollisionShape2D child!")
+		print("SwatDetector is missing CollisionShape2D child!")
 	
 func _connect_signals():
 	if not swat_detector:
@@ -50,7 +50,7 @@ func _connect_signals():
 func _on_swat_started(start_position: Vector2):
 	if not swat_detector:
 		return
-		
+	print("Swat detection activated")	
 	swat_active = true
 	hit_critters.clear()  # Reset hit tracking
 	
@@ -58,12 +58,22 @@ func _on_swat_started(start_position: Vector2):
 	var swat_collision = swat_detector.get_node("CollisionShape2D")
 	if swat_collision:
 		swat_collision.disabled = false
-	
-	print("Swat detection activated")
+	# Check for critters already in the swat area
+	_check_existing_bodies_in_area()
 
+func _check_existing_bodies_in_area():
+	print("Checking bodies in area")
+	# Get all bodies currently overlapping with the swat detector
+	var overlapping_bodies = swat_detector.get_overlapping_bodies()
+	
+	for body in overlapping_bodies:
+		# Process each overlapping body as if it just entered
+		_on_critter_entered_swat_area(body)
+		
 func _on_swat_completed(final_position: Vector2):
 	if not swat_detector:
 		return
+	print("Swat detection deactivated")
 		
 	swat_active = false
 	hit_critters.clear()  # Clear hit tracking
@@ -72,8 +82,6 @@ func _on_swat_completed(final_position: Vector2):
 	var swat_collision = swat_detector.get_node("CollisionShape2D")
 	if swat_collision:
 		swat_collision.disabled = true
-	
-	print("Swat detection deactivated")
 
 func _on_critter_entered_swat_area(body):
 	# Only process if swat is active and this critter hasn't been hit yet
@@ -93,11 +101,6 @@ func _on_critter_entered_swat_area(body):
 	print("Swat hit detected on: ", body.name)
 	hit_critters.append(body)  # Mark as hit
 	critter_swatted.emit(body)
-	
-func check_collisions():
-	# This method can now be much simpler or removed entirely
-	# since we're using Area2D signals instead
-	pass
 
 func interrupt_swat():
 	# Clean interruption

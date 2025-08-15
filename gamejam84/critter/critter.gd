@@ -140,7 +140,7 @@ func get_swatted(damage) -> int:
 	if HP <= 0:
 		return 0  # Already dead
 		
-	var damage_dealt = min(damage, HP)  # Don't over-damage
+	var damage_dealt = damage
 	Core.successful_swats += 1
 		
 	HP -= damage_dealt

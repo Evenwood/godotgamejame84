@@ -87,7 +87,7 @@ func _physics_process(delta: float) -> void:
 	movement_handler.process_movement(delta)
 	move_and_slide()
 	boundary_handler.enforce_boundaries(self)
-	collision_handler.check_collisions()
+	#collision_handler.check_collisions()
 
 # Public interface for other systems
 func is_powerup_active(powerup_type: String) -> bool:
