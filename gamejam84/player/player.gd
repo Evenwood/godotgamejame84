@@ -60,9 +60,10 @@ func _connect_component_signals():
 	powerup_handler.powerup_expired.connect(func(type): powerup_expired.emit(type))
 	
 	# Forward collision signals
-	collision_handler.player_collided.connect(func(obj, point): player_collided.emit(obj, point))
-	collision_handler.swat_something.connect(\
-		func(obj, point): swat_something.emit(obj, point))
+	#collision_handler.player_collided.connect(\
+	#	func(obj, point): player_collided.emit(obj, point))
+	#collision_handler.swat_something.connect(\
+	#	func(obj, point): swat_something.emit(obj, point))
 	collision_handler.critter_swatted.connect(\
 		func(critter): critter_swatted.emit(critter, damage))
 	collision_handler.swat_interrupted.connect(_on_swat_interrupted)

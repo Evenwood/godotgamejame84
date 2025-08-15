@@ -194,27 +194,48 @@ func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
 		
+#func _on_critter_swatted(critter, damage):
+#	if current_swat_has_hit:
+#		return
+#	current_swat_has_hit = true
+#
+#	_do_swat(critter, damage)
 func _on_critter_swatted(critter, damage):
-	if current_swat_has_hit:
-		return
-	current_swat_has_hit = true
-
+	# No need for current_swat_has_hit anymore - collision system handles duplicates
 	_do_swat(critter, damage)
 	
 func _on_smoke_bomb_hit(critter, damage):
 	_do_swat(critter, damage)
 
+#func _do_swat(critter, damage):
+#	if critter.get_swatted(damage):
+#		_show_floating_value(damage, critter.global_position, Color.RED)
+#
+#	if critter.HP <= 0:
+#		calc_critter_points(critter)
+#		critter.queue_free()
+#		audio_player.stream = squish_sound
+#		audio_player.play()
+#		#$death_animation.position = critter.position
+#		#$death_animation.play()
+#	else:
+#		audio_player.stream = pop_sound
+#		audio_player.play()
+		
 func _do_swat(critter, damage):
-	if critter.get_swatted(damage):
-		_show_floating_value(damage, critter.global_position, Color.RED)
+	# Validate critter is still alive before processing
+	if not is_instance_valid(critter) or critter.HP <= 0:
+		return
+		
+	var damage_dealt = critter.get_swatted(damage)
+	if damage_dealt > 0:
+		_show_floating_value(damage_dealt, critter.global_position, Color.RED)
 
 	if critter.HP <= 0:
 		calc_critter_points(critter)
 		critter.queue_free()
 		audio_player.stream = squish_sound
 		audio_player.play()
-		#$death_animation.position = critter.position
-		#$death_animation.play()
 	else:
 		audio_player.stream = pop_sound
 		audio_player.play()
