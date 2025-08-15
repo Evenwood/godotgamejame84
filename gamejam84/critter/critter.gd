@@ -136,9 +136,10 @@ func register_squished_critter():
 			Core.forwarders += 1
 
 func get_swatted(damage):
-	Core.successful_swats += 1
 	if HP <= 0:
-		return
+		return false
+		
+	Core.successful_swats += 1
 		
 	HP -= damage
 	
@@ -148,8 +149,10 @@ func get_swatted(damage):
 	
 	if HP <= 0:
 		_die()
-
+	return true
+	
 func _die():
+	$CollisionShape2D.disabled = true
 	_create_critter_particles()
 	animated_sprite.visible = false
 	

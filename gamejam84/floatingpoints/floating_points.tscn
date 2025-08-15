@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://crigh64jneq7i"]
+
+[ext_resource type="Script" uid="uid://d0qd8a6wgj7a2" path="res://floatingpoints/floating_points.gd" id="1_hratq"]
+
+[node name="FloatingPoints" type="Label"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("1_hratq")

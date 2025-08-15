@@ -13,6 +13,8 @@ var paused = false
 @onready var stats = $Stats
 
 var current_swat_has_hit: bool = false
+var squish_sound
+var pop_sound
 
 var critter_types = [\
 	"forwarder", "zigzagger", "spiraler", "faker", "chaser",\
@@ -31,7 +33,8 @@ func _ready() -> void:
 		
 	$MobTimer.wait_time = Core.MOB_SPAWN_RATE	
 	
-	var squish_sound = preload("res://art/squishwet.mp3")
+	squish_sound = preload("res://art/squishwet.mp3")
+	pop_sound = preload("res://art/squish-pop-256410.mp3")
 	audio_player.stream = squish_sound
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -202,11 +205,18 @@ func _on_smoke_bomb_hit(critter, damage):
 	_do_swat(critter, damage)
 
 func _do_swat(critter, damage):
-	critter.get_swatted(damage)
+	if critter.get_swatted(damage):
+		_show_floating_value(damage, critter.global_position, Color.RED)
 
-	if critter.HP == 0:
+	if critter.HP <= 0:
 		calc_critter_points(critter)
 		critter.queue_free()
+		audio_player.stream = squish_sound
+		audio_player.play()
+		#$death_animation.position = critter.position
+		#$death_animation.play()
+	else:
+		audio_player.stream = pop_sound
 		audio_player.play()
 	
 	print("SWATTED: ", critter.name);
@@ -215,11 +225,12 @@ func _do_swat(critter, damage):
 	print("Successful Swats: " + str(Core.successful_swats))
 	print("Critters Swatted: " + str(Core.critters_squished))
 	print("Power Ups Collected: " + str(Core.power_ups_collected))
+
+func _show_floating_value(value, start_position, color):
+	var floating_points = preload("res://floatingpoints/floating_points.tscn").instantiate()
+	get_tree().current_scene.add_child(floating_points)
+	floating_points.show_points(value, start_position, color)
 	
-	#$death_animation.position = critter.position
-	#$death_animation.play()
-
-
 func calc_critter_points(critter) -> void:
 	Core.critters_squished += 1
 	critter.register_squished_critter()

@@ -71,6 +71,9 @@ func _connect_to_powerups():
 	var powerups = get_tree().get_nodes_in_group("powerups")
 	for powerup in powerups:
 		if powerup.has_signal("powerup_collected"):
+			# Disconnect first to avoid duplicates
+			if powerup.powerup_collected.is_connected(_on_powerup_collected):
+				powerup.powerup_collected.disconnect(_on_powerup_collected)
 			powerup.powerup_collected.connect(_on_powerup_collected)
 
 func _on_powerup_collected(powerup_type: String, duration: float, effect_value: float):
@@ -93,8 +96,7 @@ func get_powerup_time_remaining(powerup_type: String) -> float:
 	return powerup_handler.get_powerup_time_remaining(powerup_type)
 
 func _on_swat_interrupted(collision_point: Vector2):
-	# Handle the swat interruption here in main player
+	# Use the movement handler's interrupt method instead
+	movement_handler.interrupt_swat()
 	swat_completed.emit(collision_point)
-	velocity = Vector2.ZERO
-	movement_handler.start_swat_pause()
 	$CollisionShape2D.disabled = true
