@@ -163,9 +163,16 @@ func process_end_game() -> void:
 	await get_tree().create_timer(2.0).timeout
 	Engine.time_scale = 0
 	update_score()
+	display_stat_screen()
+
+
+func display_stat_screen() -> void:
 	stats.update_stats()
+	stats.clear_view()
 	stats.show()
-	
+	stats.create_view()
+
+
 func process_continue() -> void:
 	Engine.time_scale = 1
 	time = 0

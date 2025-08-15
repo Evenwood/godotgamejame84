@@ -11,6 +11,10 @@ signal restart_game()
 @onready var accuracy = $StatPanel/MarginContainer/LabelContainer/AccuracyLabel
 @onready var time = $StatPanel/MarginContainer/LabelContainer/TimeLabel
 
+@onready var continue_button = $StatPanel/MarginContainer/LabelContainer/ButtonContainer/ContinueButton
+@onready var restart_button = $StatPanel/MarginContainer/LabelContainer/ButtonContainer/RestartButton
+@onready var exit_button = $StatPanel/MarginContainer/LabelContainer/ButtonContainer/ExitButton
+
 @onready var forwarder = $CritterPanel/MarginContainer/LabelContainer/ForwarderLabel
 @onready var zigzagger = $CritterPanel/MarginContainer/LabelContainer/ZigzaggerLabel
 @onready var spiraler = $CritterPanel/MarginContainer/LabelContainer/SpiralerLabel
@@ -22,7 +26,10 @@ signal restart_game()
 @onready var size = $LevelPanel/MarginContainer/LabelContainer/SizeLabel
 @onready var luck = $LevelPanel/MarginContainer/LabelContainer/LuckLabel
 
+@onready var stat_timer = $StatTimer
+
 func _ready() -> void:
+	stat_timer.wait_time = Core.STAT_SCREEN_TIME_INTERVAL
 	forwarder.tooltip_text = "Worth " + str(Core.FORWARDER_SQUISH_POINTS)
 	zigzagger.tooltip_text = "Worth " + str(Core.ZIGZAGGER_SQUISH_POINTS)
 	spiraler.tooltip_text = "Worth " + str(Core.SPIRALER_SQUISH_POINTS)
@@ -61,6 +68,47 @@ func calc_accuracy() -> String:
 		return percentString
 
 
+func clear_view() -> void:
+	$CritterPanel.hide()
+	$LevelPanel.hide()
+	critters.hide()
+	bonus.hide()
+	powers.hide()
+	swats.hide()
+	succ_swats.hide()
+	accuracy.hide()
+	time.hide()
+	continue_button.hide()
+	restart_button.hide()
+	exit_button.hide()
+
+
+func create_view() -> void:
+	stat_timer.start()
+	critters.show()
+	await stat_timer.timeout
+	$CritterPanel.show()
+	await stat_timer.timeout
+	bonus.show()
+	await stat_timer.timeout
+	powers.show()
+	await stat_timer.timeout
+	swats.show()
+	await stat_timer.timeout
+	succ_swats.show()
+	await stat_timer.timeout
+	accuracy.show()
+	await stat_timer.timeout
+	time.show()
+	await stat_timer.timeout
+	$LevelPanel.show()
+	await stat_timer.timeout
+	continue_button.show()
+	restart_button.show()
+	exit_button.show()
+	stat_timer.stop()
+	
+	
 func _on_continue_button_pressed() -> void:
 	hide()
 	continue_game.emit()

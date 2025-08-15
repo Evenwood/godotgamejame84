@@ -288,6 +288,9 @@ autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="StatTimer" type="Timer" parent="."]
+ignore_time_scale = true
+
 [connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/ExitButton" to="." method="_on_exit_button_pressed"]

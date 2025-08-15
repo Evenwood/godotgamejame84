@@ -43,7 +43,7 @@ func _spawn_powerup():
 	var group_name = "powerup_" + random_type
 	# Check limits per type
 	var existing_count = get_tree().get_nodes_in_group(group_name).size()
-	if existing_count >= 1:  # Only 1 of each type
+	if existing_count >= (1 + Core.luck_increase):  # Only 1 of each type
 		return
 		
 	var current_powerups = get_tree().get_nodes_in_group("powerups")
