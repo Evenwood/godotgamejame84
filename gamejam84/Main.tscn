@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://0x0wfcn5h6ak"]
+[gd_scene load_steps=15 format=3 uid="uid://0x0wfcn5h6ak"]
 
 [ext_resource type="PackedScene" uid="uid://dhd8sqh56dl4a" path="res://player/Player.tscn" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://cnay2uhntt0la" path="res://main.gd" id="1_uu6xs"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://7otfqqw8064k" path="res://art/squish2-1.png" id="8_wkp8b"]
 [ext_resource type="PackedScene" uid="uid://coqc6gtkj2fdl" path="res://gui/pause.tscn" id="10_wkp8b"]
 [ext_resource type="PackedScene" uid="uid://ddhv7gv0dw3am" path="res://gui/stats.tscn" id="11_20pc6"]
+[ext_resource type="PackedScene" uid="uid://sy7jjndicuyu" path="res://gui/level.tscn" id="12_5vvyt"]
 
 [sub_resource type="Curve2D" id="Curve2D_glv2v"]
 _data = {
@@ -83,6 +84,9 @@ z_index = 2
 layer = 2
 visible = false
 
+[node name="Level" parent="." instance=ExtResource("12_5vvyt")]
+visible = false
+
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
@@ -90,3 +94,4 @@ visible = false
 [connection signal="resume_from_pause" from="Pause" to="." method="_on_resume_from_pause"]
 [connection signal="continue_game" from="Stats" to="." method="_on_stats_continue_game"]
 [connection signal="restart_game" from="Stats" to="." method="_on_stats_restart_game"]
+[connection signal="selection_made" from="Level" to="." method="_on_level_selection_made"]

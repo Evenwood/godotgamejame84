@@ -26,6 +26,8 @@ func start(pos):
 
 func _ready() -> void:
 	add_to_group("player")
+	damage = Core.PLAYER_BASE_DAMAGE
+	scale = Core.PLAYER_BASE_SCALE
 	
 	# Initialize components
 	movement_handler.setup(self)
@@ -38,6 +40,15 @@ func _ready() -> void:
 	
 	# Connect to powerups in scene
 	_connect_to_powerups()
+
+
+func update_player_stats():
+	damage = Core.PLAYER_BASE_DAMAGE + Core.damage_increase
+	scale = Core.PLAYER_BASE_SCALE + (Core.size_increase * Core.SCALE_INCREMENT)
+
+func reset_player():
+	damage = Core.PLAYER_BASE_DAMAGE
+	scale = Core.PLAYER_BASE_SCALE
 
 func _connect_component_signals():
 	# Forward movement signals
