@@ -10,13 +10,17 @@ signal restart_game()
 @onready var succ_swats = $StatPanel/MarginContainer/LabelContainer/SuccSwatLabel
 @onready var accuracy = $StatPanel/MarginContainer/LabelContainer/AccuracyLabel
 @onready var time = $StatPanel/MarginContainer/LabelContainer/TimeLabel
-@onready var level = $StatPanel/MarginContainer/LabelContainer/LevelLabel
 
 @onready var forwarder = $CritterPanel/MarginContainer/LabelContainer/ForwarderLabel
 @onready var zigzagger = $CritterPanel/MarginContainer/LabelContainer/ZigzaggerLabel
 @onready var spiraler = $CritterPanel/MarginContainer/LabelContainer/SpiralerLabel
 @onready var faker = $CritterPanel/MarginContainer/LabelContainer/FakerLabel
 @onready var chaser = $CritterPanel/MarginContainer/LabelContainer/ChaserLabel
+
+@onready var level = $LevelPanel/MarginContainer/LabelContainer/LevelLabel
+@onready var damage = $LevelPanel/MarginContainer/LabelContainer/DamageLabel
+@onready var size = $LevelPanel/MarginContainer/LabelContainer/SizeLabel
+@onready var luck = $LevelPanel/MarginContainer/LabelContainer/LuckLabel
 
 func _ready() -> void:
 	forwarder.tooltip_text = "Worth " + str(Core.FORWARDER_SQUISH_POINTS)
@@ -33,13 +37,17 @@ func update_stats() -> void:
 	succ_swats.text = "Successful Swats: " + str(Core.successful_swats)
 	accuracy.text = "Accuracy: " + calc_accuracy()
 	time.text = "Time Elapsed: " + str(Core.time_elapsed) + " seconds"
-	level.text = "Current Level: " + str(Core.level + 1)
 	
 	forwarder.text = "Forwarders: " + str(Core.forwarders)
 	zigzagger.text = "Zigzaggers: " + str(Core.zigzaggers)
 	spiraler.text = "Spiralers: " + str(Core.spiralers)
 	faker.text = "Fakers: " + str(Core.fakers)
 	chaser.text = "Chasers: " + str(Core.chasers)
+	
+	level.text = "Current Level: " + str(Core.level + 1)
+	damage.text = "Damage: +" + str(Core.damage_increase)
+	size.text = "Size: +" + str(Core.size_increase)
+	luck.text = "Luck: +" + str(Core.luck_increase)
 	
 func calc_accuracy() -> String:
 	var acc: float = 0.0
