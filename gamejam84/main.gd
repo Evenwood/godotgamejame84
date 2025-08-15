@@ -201,6 +201,8 @@ func _do_swat(critter, damage):
 		calc_critter_points(critter)
 		critter.queue_free()
 		audio_player.play()
+		#$death_animation.position = critter.position
+		#$death_animation.play()
 	
 	print("SWATTED: ", critter.name);
 	print("Points: " + str(Core.calculate_score()))
@@ -209,10 +211,6 @@ func _do_swat(critter, damage):
 	print("Critters Swatted: " + str(Core.critters_squished))
 	print("Power Ups Collected: " + str(Core.power_ups_collected))
 	
-	#$death_animation.position = critter.position
-	#$death_animation.play()
-
-
 func calc_critter_points(critter) -> void:
 	Core.critters_squished += 1
 	critter.register_squished_critter()

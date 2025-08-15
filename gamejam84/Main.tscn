@@ -32,7 +32,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"die",
-"speed": 1.0
+"speed": 6.0
 }]
 
 [node name="Main" type="Node"]
