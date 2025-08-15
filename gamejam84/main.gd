@@ -227,9 +227,11 @@ func _do_swat(critter, damage):
 	if(is_critical_hit):
 		damage *= (2 + (Core.luck_increase) / 3)
 	
-	if (critter.get_swatted(damage) && is_critical_hit):
+	print("Swat")
+	var alive: bool = critter.get_swatted(damage)
+	if (alive && is_critical_hit):
 		_show_floating_value(damage, critter.global_position, Color.YELLOW)
-	elif critter.get_swatted(damage):
+	elif alive:
 		_show_floating_value(damage, critter.global_position, Color.RED)
 
 	if critter.HP <= 0:

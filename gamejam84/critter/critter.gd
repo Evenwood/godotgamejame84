@@ -141,6 +141,7 @@ func get_swatted(damage):
 		
 	Core.successful_swats += 1
 	
+	print("Was Swatted")
 	print("Damage Dealt: " + str(damage))
 	HP -= damage
 	
