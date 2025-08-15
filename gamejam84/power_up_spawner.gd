@@ -17,6 +17,21 @@ func _ready():
 	add_child(spawn_timer)
 	spawn_timer.start()
 
+
+func update_spawner() -> void:
+	spawn_timer.stop()
+	spawn_timer.wait_time = spawn_interval - (Core.luck_increase * Core.LUCK_INCREMENT)
+	if(spawn_timer.wait_time < 1.0):
+		spawn_timer.wait_time = 1.0
+	max_powerups += Core.luck_increase	
+	spawn_timer.start()
+
+func reset_spawner() -> void:
+	spawn_timer.stop()
+	spawn_timer.wait_time = Core.POWER_UP_SPAWN_RATE
+	max_powerups = Core.MAX_POWER_UPS
+	spawn_timer.start()		
+
 func _spawn_powerup():
 	# Randomly choose powerup type
 	var random_type = powerup_types[randi() % powerup_types.size()]	

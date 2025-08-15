@@ -47,6 +47,8 @@ func _process(delta: float) -> void:
 func new_game():
 	score = 0
 	time = 0
+	player.reset_player()
+	$PowerUpSpawner.reset_spawner()
 	$MobTimer.wait_time = Core.MOB_SPAWN_RATE
 	reset_game_state()
 	
@@ -109,11 +111,16 @@ func unfreeze_critters() -> void:
 
 func increase_level() -> void:
 	Core.level += 1
-	$HUD.show_message("Level Up!")
 	if($MobTimer.wait_time > 0.1):
 		$MobTimer.wait_time -= Core.TIMER_INCREMENT
 		print("Mob Timer Wait Time Now: " + str($MobTimer.wait_time))
-	
+	$Level.show()
+
+
+func apply_level() -> void:
+	player.update_player_stats()
+	print("Damage now: " + str(player.damage))
+	$PowerUpSpawner.update_spawner()
 
 
 func pause() -> void:
@@ -157,10 +164,10 @@ func process_end_game() -> void:
 func process_continue() -> void:
 	Engine.time_scale = 1
 	time = 0
-	increase_level()
+	$HUD.show_message("Level Up!")
 	await get_tree().create_timer(2.0).timeout
-	reset_game_state()
-
+	Engine.time_scale = 0
+	increase_level()
 
 func process_restart() -> void:
 	Core.reset_state()
@@ -226,3 +233,9 @@ func _on_stats_continue_game() -> void:
 
 func _on_stats_restart_game() -> void:
 	process_restart()
+
+
+func _on_level_selection_made() -> void:
+	apply_level()
+	Engine.time_scale = 1
+	reset_game_state()
