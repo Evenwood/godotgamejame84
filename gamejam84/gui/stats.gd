@@ -10,7 +10,10 @@ signal restart_game()
 @onready var succ_swats = $StatPanel/MarginContainer/LabelContainer/SuccSwatLabel
 @onready var accuracy = $StatPanel/MarginContainer/LabelContainer/AccuracyLabel
 @onready var time = $StatPanel/MarginContainer/LabelContainer/TimeLabel
-@onready var level = $StatPanel/MarginContainer/LabelContainer/LevelLabel
+
+@onready var continue_button = $StatPanel/MarginContainer/LabelContainer/ButtonContainer/ContinueButton
+@onready var restart_button = $StatPanel/MarginContainer/LabelContainer/ButtonContainer/RestartButton
+@onready var exit_button = $StatPanel/MarginContainer/LabelContainer/ButtonContainer/ExitButton
 
 @onready var forwarder = $CritterPanel/MarginContainer/LabelContainer/ForwarderLabel
 @onready var zigzagger = $CritterPanel/MarginContainer/LabelContainer/ZigzaggerLabel
@@ -18,7 +21,15 @@ signal restart_game()
 @onready var faker = $CritterPanel/MarginContainer/LabelContainer/FakerLabel
 @onready var chaser = $CritterPanel/MarginContainer/LabelContainer/ChaserLabel
 
+@onready var level = $LevelPanel/MarginContainer/LabelContainer/LevelLabel
+@onready var damage = $LevelPanel/MarginContainer/LabelContainer/DamageLabel
+@onready var size = $LevelPanel/MarginContainer/LabelContainer/SizeLabel
+@onready var luck = $LevelPanel/MarginContainer/LabelContainer/LuckLabel
+
+@onready var stat_timer = $StatTimer
+
 func _ready() -> void:
+	stat_timer.wait_time = Core.STAT_SCREEN_TIME_INTERVAL
 	forwarder.tooltip_text = "Worth " + str(Core.FORWARDER_SQUISH_POINTS)
 	zigzagger.tooltip_text = "Worth " + str(Core.ZIGZAGGER_SQUISH_POINTS)
 	spiraler.tooltip_text = "Worth " + str(Core.SPIRALER_SQUISH_POINTS)
@@ -33,13 +44,17 @@ func update_stats() -> void:
 	succ_swats.text = "Successful Swats: " + str(Core.successful_swats)
 	accuracy.text = "Accuracy: " + calc_accuracy()
 	time.text = "Time Elapsed: " + str(Core.time_elapsed) + " seconds"
-	level.text = "Current Level: " + str(Core.level + 1)
 	
 	forwarder.text = "Forwarders: " + str(Core.forwarders)
 	zigzagger.text = "Zigzaggers: " + str(Core.zigzaggers)
 	spiraler.text = "Spiralers: " + str(Core.spiralers)
 	faker.text = "Fakers: " + str(Core.fakers)
 	chaser.text = "Chasers: " + str(Core.chasers)
+	
+	level.text = "Current Level: " + str(Core.level + 1)
+	damage.text = "Damage: +" + str(Core.damage_increase)
+	size.text = "Size: +" + str(Core.size_increase)
+	luck.text = "Luck: +" + str(Core.luck_increase)
 	
 func calc_accuracy() -> String:
 	var acc: float = 0.0
@@ -53,6 +68,47 @@ func calc_accuracy() -> String:
 		return percentString
 
 
+func clear_view() -> void:
+	$CritterPanel.hide()
+	$LevelPanel.hide()
+	critters.hide()
+	bonus.hide()
+	powers.hide()
+	swats.hide()
+	succ_swats.hide()
+	accuracy.hide()
+	time.hide()
+	continue_button.hide()
+	restart_button.hide()
+	exit_button.hide()
+
+
+func create_view() -> void:
+	stat_timer.start()
+	critters.show()
+	await stat_timer.timeout
+	$CritterPanel.show()
+	await stat_timer.timeout
+	bonus.show()
+	await stat_timer.timeout
+	powers.show()
+	await stat_timer.timeout
+	swats.show()
+	await stat_timer.timeout
+	succ_swats.show()
+	await stat_timer.timeout
+	accuracy.show()
+	await stat_timer.timeout
+	time.show()
+	await stat_timer.timeout
+	$LevelPanel.show()
+	await stat_timer.timeout
+	continue_button.show()
+	restart_button.show()
+	exit_button.show()
+	stat_timer.stop()
+	
+	
 func _on_continue_button_pressed() -> void:
 	hide()
 	continue_game.emit()

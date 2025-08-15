@@ -42,10 +42,12 @@ func _process(delta: float) -> void:
 	if(game_active):
 		update_score()
 		stats.update_stats()
-	if (game_active && Input.is_action_just_pressed("escape")):
+	if(game_active && Input.is_action_just_pressed("escape")):
 		process_pause()
 	if(game_active && paused != true && Input.is_action_just_pressed("swat")):
 		Core.num_swats += 1
+	if(game_active && paused != true && Input.is_action_just_pressed("return")):
+		$Player.start($StartPosition.position)
 	
 func new_game():
 	score = 0
@@ -161,9 +163,16 @@ func process_end_game() -> void:
 	await get_tree().create_timer(2.0).timeout
 	Engine.time_scale = 0
 	update_score()
+	display_stat_screen()
+
+
+func display_stat_screen() -> void:
 	stats.update_stats()
+	stats.clear_view()
 	stats.show()
-	
+	stats.create_view()
+
+
 func process_continue() -> void:
 	Engine.time_scale = 1
 	time = 0
@@ -181,7 +190,15 @@ func process_restart() -> void:
 func update_score() -> void:
 	score = Core.calculate_score()
 	$HUD.update_score(score)
-	
+
+
+func calc_crit() -> bool:
+	var crit_chance = randi_range(0, 100)
+	if(crit_chance <= Core.luck_increase):
+		print("CRITICAL HIT!!!")
+		return true
+	else:
+		return false
 	
 func _on_score_timer_timeout() -> void:
 	time += 1
@@ -226,10 +243,18 @@ func _do_swat(critter, damage):
 	# Validate critter is still alive before processing
 	if not is_instance_valid(critter) or critter.HP <= 0:
 		return
-		
+
+	var is_critical_hit = calc_crit()
+	
+	if(is_critical_hit):
+		damage *= (2 + (Core.luck_increase) / 3)\
+
 	var damage_dealt = critter.get_swatted(damage)
-	if damage_dealt > 0:
-		_show_floating_value(damage_dealt, critter.global_position, Color.RED)
+	
+	if damage_dealt > 0 && is_critical_hit):
+		_show_floating_value(damage, critter.global_position, Color.YELLOW)
+	elif damage_dealt > 0:
+		_show_floating_value(damage, critter.global_position, Color.RED)
 
 	if critter.HP <= 0:
 		calc_critter_points(critter)
