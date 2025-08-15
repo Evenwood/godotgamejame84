@@ -6,6 +6,8 @@ const MAIN_MESSAGE = "Squish the Critters!!!"
 const TITLE = "CREEPY CRITTER SQUISHER"
 
 const MOB_SPAWN_RATE = 0.5
+const POWER_UP_SPAWN_RATE = 10.0
+const MAX_POWER_UPS = 3
 
 # Point Values
 const FORWARDER_SQUISH_POINTS = 1
@@ -19,7 +21,10 @@ const COLLECT_POWER_UP_POINTS = 3
 const REG_CRITTER_HP = 1
 const TOUGH_CRITTER_HP = 2
 const PLAYER_BASE_DAMAGE = 1
+const PLAYER_BASE_SCALE = Vector2(1.0, 1.0)
 var damage_increase = 0
+var size_increase = 0
+var luck_increase = 0
 
 # Tracked Parameters
 var critters_squished = 0
@@ -38,6 +43,8 @@ var time_elapsed = 0
 var level = 0
 const TIMER_INCREMENT = 0.05
 const VELOCITY_INCREMENT = 20.0
+const SCALE_INCREMENT = Vector2(0.1, 0.1)
+const LUCK_INCREMENT: float = 0.2
 
 func calculate_score() -> int:
 	var score = 0
@@ -64,3 +71,5 @@ func reset_state() -> void:
 	time_elapsed = 0
 	level = 0
 	damage_increase = 0
+	size_increase = 0
+	luck_increase = 0

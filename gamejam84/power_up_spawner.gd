@@ -2,8 +2,8 @@
 extends Node2D
 
 @export var size_powerup_scene: PackedScene
-@export var spawn_interval: float = 10.0
-@export var max_powerups: int = 3
+@export var spawn_interval: float = Core.POWER_UP_SPAWN_RATE
+@export var max_powerups: int = Core.MAX_POWER_UPS
 
 var spawn_timer: Timer
 
