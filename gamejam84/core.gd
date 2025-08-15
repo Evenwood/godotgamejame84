@@ -1,7 +1,7 @@
 extends Node
 
 
-const TIME_LIMIT = 10
+const TIME_LIMIT = 60
 const MAIN_MESSAGE = "Squish the Critters!!!"
 const TITLE = "CREEPY CRITTER SQUISHER"
 
