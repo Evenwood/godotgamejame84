@@ -42,10 +42,12 @@ func _process(delta: float) -> void:
 	if(game_active):
 		update_score()
 		stats.update_stats()
-	if (game_active && Input.is_action_just_pressed("escape")):
+	if(game_active && Input.is_action_just_pressed("escape")):
 		process_pause()
 	if(game_active && paused != true && Input.is_action_just_pressed("swat")):
 		Core.num_swats += 1
+	if(game_active && paused != true && Input.is_action_just_pressed("return")):
+		$Player.start($StartPosition.position)
 	
 func new_game():
 	score = 0
