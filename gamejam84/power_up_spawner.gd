@@ -4,7 +4,7 @@ extends Node2D
 @export var size_powerup_scene: PackedScene
 @export var spawn_interval: float = Core.POWER_UP_SPAWN_RATE
 @export var max_powerups: int = Core.MAX_POWER_UPS
-
+@export var margin: float = 50
 var spawn_timer: Timer
 
 var powerup_types = ["size_boost", "freeze", "smoke_bomb"]
@@ -57,8 +57,8 @@ func _spawn_powerup():
 	# Random position on screen
 	var viewport_size = get_viewport().get_visible_rect().size
 	powerup.global_position = Vector2(
-		randf() * viewport_size.x,
-		randf() * viewport_size.y
+		randf_range(margin, viewport_size.x - margin),
+		randf_range(margin, viewport_size.y - margin)
 	)
 
 	# Connect to player

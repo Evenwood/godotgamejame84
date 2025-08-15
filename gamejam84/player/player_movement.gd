@@ -112,9 +112,17 @@ func _move_to_swat(delta: float) -> void:
 		return
 	
 	#Recalculate direction every frame toward the target
-	var current_direction = (target_position - player.global_position).normalized()
-	var acceleration_vector = current_direction * swat_acceleration * delta
-	player.velocity += acceleration_vector
+	#var current_direction = (target_position - player.global_position).normalized()
+	#var acceleration_vector = current_direction * swat_acceleration * delta
+	#player.velocity += acceleration_vector
+	
+		# Calculate desired velocity toward target
+	var direction_to_target = (target_position - player.global_position).normalized()
+	var desired_velocity = direction_to_target * max_swat_speed
+	
+	# Lerp toward desired velocity instead of adding acceleration
+	var lerp_speed = 15.0  # Adjust this to control how quickly it reaches max speed
+	player.velocity = player.velocity.lerp(desired_velocity, lerp_speed * delta)
 	
 	#var acceleration_vector = swat_direction * swat_acceleration * delta
 	#player.velocity += acceleration_vector
