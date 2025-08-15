@@ -190,7 +190,15 @@ func process_restart() -> void:
 func update_score() -> void:
 	score = Core.calculate_score()
 	$HUD.update_score(score)
-	
+
+
+func calc_crit() -> bool:
+	var crit_chance = randi_range(0, 100)
+	if(crit_chance <= Core.luck_increase):
+		print("CRITICAL HIT!!!")
+		return true
+	else:
+		return false
 	
 func _on_score_timer_timeout() -> void:
 	time += 1
@@ -214,7 +222,14 @@ func _on_smoke_bomb_hit(critter, damage):
 	_do_swat(critter, damage)
 
 func _do_swat(critter, damage):
-	if critter.get_swatted(damage):
+	var is_critical_hit = calc_crit()
+	
+	if(is_critical_hit):
+		damage *= (2 + (Core.luck_increase) / 3)
+	
+	if (critter.get_swatted(damage) && is_critical_hit):
+		_show_floating_value(damage, critter.global_position, Color.YELLOW)
+	elif critter.get_swatted(damage):
 		_show_floating_value(damage, critter.global_position, Color.RED)
 
 	if critter.HP <= 0:
