@@ -140,7 +140,8 @@ func get_swatted(damage):
 		return false
 		
 	Core.successful_swats += 1
-		
+	
+	print("Damage Dealt: " + str(damage))
 	HP -= damage
 	
 	# Update health bar

@@ -9,7 +9,7 @@ func _ready() -> void:
 	tween.tween_property(title, "visible_characters", length, 2)
 
 func _on_start_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://Main.tscn")
+	get_tree().change_scene_to_file("res://gui/intro.tscn")
 
 
 func _on_exit_button_pressed() -> void:
