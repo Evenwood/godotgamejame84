@@ -42,6 +42,10 @@ func _ready() -> void:
 	_connect_to_powerups()
 
 
+func update_player_stats():
+	damage = Core.PLAYER_BASE_DAMAGE + Core.damage_increase
+	scale = Core.PLAYER_BASE_SCALE + (Core.size_increase * Core.SCALE_INCREMENT)
+
 func reset_player():
 	damage = Core.PLAYER_BASE_DAMAGE
 	scale = Core.PLAYER_BASE_SCALE

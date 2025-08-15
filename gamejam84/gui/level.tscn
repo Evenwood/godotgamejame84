@@ -1,0 +1,144 @@
+[gd_scene load_steps=4 format=3 uid="uid://sy7jjndicuyu"]
+
+[ext_resource type="StyleBox" uid="uid://d32ynww7y148n" path="res://gui/statstyle.tres" id="1_l4w37"]
+[ext_resource type="Script" uid="uid://cje0w77gcrnhs" path="res://gui/level.gd" id="1_sodym"]
+[ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="2_sodym"]
+
+[node name="Level" type="CanvasLayer"]
+script = ExtResource("1_sodym")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="DamagePanel" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_l4w37")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/DamagePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/DamagePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/DamagePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sodym")
+theme_override_font_sizes/font_size = 60
+text = "Damage"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="MarginContainer/HBoxContainer/DamagePanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sodym")
+theme_override_font_sizes/font_size = 40
+text = "With higher damage, each swat will take away more enemy health!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="DamageSelect" type="Button" parent="MarginContainer/HBoxContainer/DamagePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sodym")
+theme_override_font_sizes/font_size = 25
+text = "Increase Damage"
+
+[node name="SizePanel" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_l4w37")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/SizePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/SizePanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/SizePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sodym")
+theme_override_font_sizes/font_size = 60
+text = "Size"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="MarginContainer/HBoxContainer/SizePanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sodym")
+theme_override_font_sizes/font_size = 40
+text = "The bigger you are, the easier to SWAT!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="SizeSelect" type="Button" parent="MarginContainer/HBoxContainer/SizePanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sodym")
+theme_override_font_sizes/font_size = 25
+text = "Increase Size"
+
+[node name="LuckPanel" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_l4w37")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/LuckPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/LuckPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/LuckPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sodym")
+theme_override_font_sizes/font_size = 60
+text = "Luck"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="Label" parent="MarginContainer/HBoxContainer/LuckPanel/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sodym")
+theme_override_font_sizes/font_size = 40
+text = "Increasing your luck will lead to more frequent power-ups!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="LuckSelect" type="Button" parent="MarginContainer/HBoxContainer/LuckPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sodym")
+theme_override_font_sizes/font_size = 25
+text = "Increase Luck"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/DamagePanel/MarginContainer/VBoxContainer/DamageSelect" to="." method="_on_damage_select_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/SizePanel/MarginContainer/VBoxContainer/SizeSelect" to="." method="_on_size_select_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/LuckPanel/MarginContainer/VBoxContainer/LuckSelect" to="." method="_on_luck_select_pressed"]
