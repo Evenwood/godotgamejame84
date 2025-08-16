@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://ddhv7gv0dw3am" path="res://gui/stats.tscn" id="11_20pc6"]
 [ext_resource type="PackedScene" uid="uid://sy7jjndicuyu" path="res://gui/level.tscn" id="12_5vvyt"]
 [ext_resource type="PackedScene" uid="uid://w0u7j23cql36" path="res://miniquests/miniquest.tscn" id="13_c6i3y"]
+[ext_resource type="Texture2D" uid="uid://drgpuv0clig2j" path="res://art/pixil-frame-0 (1).png" id="13_c6i3y"]
 
 [sub_resource type="Curve2D" id="Curve2D_glv2v"]
 _data = {
@@ -40,6 +41,11 @@ animations = [{
 [node name="Main" type="Node"]
 script = ExtResource("1_uu6xs")
 critter_scene = ExtResource("2_r0du0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(575.5, 323)
+scale = Vector2(1.12598, 1.125)
+texture = ExtResource("13_c6i3y")
 
 [node name="Player" parent="." instance=ExtResource("1_glv2v")]
 position = Vector2(570, 460)

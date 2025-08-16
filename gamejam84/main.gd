@@ -2,6 +2,8 @@ extends Node
 
 @export var critter_scene: PackedScene
 @onready var audio_player = $AudioStreamPlayer
+@onready var audio_player_2 = $AudioStreamPlayer
+
 
 var score
 var time
@@ -358,6 +360,14 @@ func _on_level_selection_made() -> void:
 	reset_game_state()
 	
 func _on_powerup_activated(powerup_type):
+	if powerup_type == "size_boost":
+		audio_player.stream = xl_sound
+		audio_player.play()
+		return
+	if powerup_type == "freeze":
+		audio_player_2.stream = freeze_sound
+		audio_player_2.play()
+		return	
 	print(powerup_type, " ACTIVATED!")
 
 func create_new_quest():
