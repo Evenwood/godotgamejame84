@@ -1,0 +1,135 @@
+[gd_scene load_steps=3 format=3 uid="uid://52wdjceyo1jj"]
+
+[ext_resource type="Script" uid="uid://rt2n4j5wkri3" path="res://gui/credits.gd" id="1_i8qro"]
+[ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_t6a7l"]
+
+[node name="Credits" type="CanvasLayer"]
+script = ExtResource("1_i8qro")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Credits" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 140
+
+[node name="DevAndDesign" type="VBoxContainer" parent="MarginContainer/Credits"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="MarginContainer/Credits/DevAndDesign"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_t6a7l")
+theme_override_font_sizes/font_size = 25
+text = "Dev & Design"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/Credits/DevAndDesign"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_t6a7l")
+theme_override_font_sizes/normal_font_size = 20
+text = "Darien Roach
+
+Jeff Roach
+
+Cullen Diebold"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArtSoundMusic" type="VBoxContainer" parent="MarginContainer/Credits"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="MarginContainer/Credits/ArtSoundMusic"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_t6a7l")
+theme_override_font_sizes/font_size = 25
+text = "Art, Sounds & Music"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/Credits/ArtSoundMusic"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_t6a7l")
+theme_override_font_sizes/normal_font_size = 20
+text = "Matthew Tarnoff
+
+Cullen Diebold
+
+8 bit march by njjn"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Writing" type="VBoxContainer" parent="MarginContainer/Credits"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="MarginContainer/Credits/Writing"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_t6a7l")
+theme_override_font_sizes/font_size = 25
+text = "Writing"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/Credits/Writing"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_t6a7l")
+theme_override_font_sizes/normal_font_size = 20
+text = "Matthew Tarnoff
+
+Font: Pixelated Elegance by GGBotNet"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleButton" type="Button" parent="."]
+z_index = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -276.0
+offset_top = 30.0
+offset_right = -179.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_t6a7l")
+theme_override_font_sizes/font_size = 25
+text = "Title"
+
+[node name="ExitButton" type="Button" parent="."]
+z_index = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 124.0
+offset_top = 30.0
+offset_right = 221.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_t6a7l")
+theme_override_font_sizes/font_size = 25
+text = "Exit"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="pressed" from="TitleButton" to="." method="_on_title_button_pressed"]
+[connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]

@@ -128,7 +128,7 @@ text = "Restart"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_wd47t")
 theme_override_font_sizes/font_size = 30
-text = "Exit"
+text = "End"
 
 [node name="CritterPanel" type="Panel" parent="."]
 offset_left = 867.0
