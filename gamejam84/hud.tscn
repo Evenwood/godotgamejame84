@@ -67,5 +67,17 @@ text = "Start"
 [node name="MessageTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="QuestObjective" type="Label" parent="."]
+offset_left = 17.0
+offset_top = 3.0
+offset_right = 476.0
+offset_bottom = 26.0
+
+[node name="QuestProgress" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 31.0
+offset_right = 423.0
+offset_bottom = 54.0
+
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
