@@ -17,6 +17,7 @@ func set_critters_to_squish(critter_count:int, critter_type:String):
 	critters_squished = 0
 	critter_type_to_squish = critter_type
 	
+	
 func get_objective() -> String:
 	return "Squish %d %ss" % [critters_to_squish, critter_type_to_squish]
 		

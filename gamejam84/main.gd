@@ -71,16 +71,19 @@ func new_game():
 	player.reset_player()
 	$PowerUpSpawner.reset_spawner()
 	$MobTimer.wait_time = Core.MOB_SPAWN_RATE
-	create_new_quest()
 	reset_game_state()
 	
-func reset_game_state() -> void:
-
+func round_start():
 	$HUD.update_score(score)
 	$HUD.update_time(time)
+	create_new_quest()
+	await get_tree().create_timer(1.0).timeout
 	$HUD.show_message("Get Ready")
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
+	
+func reset_game_state() -> void:
+	round_start()
 	game_active = true
 	
 #func _on_swat_started(start_position: Vector2):
@@ -142,7 +145,6 @@ func increase_level() -> void:
 	if($MobTimer.wait_time > 0.1):
 		$MobTimer.wait_time -= Core.TIMER_INCREMENT
 		print("Mob Timer Wait Time Now: " + str($MobTimer.wait_time))
-	create_new_quest()
 	$Level.show()
 
 
@@ -309,11 +311,33 @@ func _update_quest_progress(critter):
 			
 			# Check if quest is completed
 			if current_quest.is_objective_met():
-				Core.critter_bonus_points += current_quest.get_reward_points()
-				$HUD.show_quest_completed(current_quest.get_reward_points())
+				Core.quests_completed += 1
+				quest_stat_increase()
+				await get_tree().create_timer(1.0).timeout
 				create_new_quest()
-				print("Quest Completed! Bonus: +", current_quest.get_reward_points(), " points")	
-	
+				await get_tree().create_timer(1.0).timeout
+				print("Quest Completed! Bonus: +", current_quest.get_reward_points(), " points")
+				update_score()
+				
+
+
+func quest_stat_increase() -> void:
+	var stat_up = randi_range(0, 2)
+	match(stat_up):
+		0:
+			Core.damage_increase += 1
+			$HUD.show_quest_completed("Damage")
+			print("Damage Increased")
+		1:
+			Core.size_increase += 1
+			$HUD.show_quest_completed("Size")
+			print("Size Increased")
+		2:
+			Core.luck_increase += 1
+			$HUD.show_quest_completed("Luck")
+			print("Luck Increased")
+	apply_level()
+
 func _on_resume_from_pause() -> void:
 	audio_player.stream = restart_sound
 	audio_player.play()
@@ -347,13 +371,17 @@ func _on_powerup_activated(powerup_type):
 	print(powerup_type, " ACTIVATED!")
 
 func create_new_quest():
-	current_quest = Miniquest.new("Mini Challenge", 25)  # 25 bonus points
+	current_quest = Miniquest.new("Mini Challenge", Core.QUEST_POINTS)  # 25 bonus points
 	
 	# Random critter count (5-10) and type
 	var critter_count = randi_range(5, 10)
 	var critter_type = critter_types[randi() % critter_types.size()]
 	
 	current_quest.set_critters_to_squish(critter_count, critter_type)
+	Engine.time_scale = 0
+	$Miniquest.display_quest(critter_count, critter_type)
+	await $Miniquest.quest_accepted
+	Engine.time_scale = 1
 	
 	# Update HUD to show quest
 	$HUD.update_quest_display(\

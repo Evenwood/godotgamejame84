@@ -37,6 +37,7 @@ const SPIRALER_SQUISH_POINTS = 2
 const FAKER_SQUISH_POINTS = 2
 const CHASER_SQUISH_POINTS = 3
 const COLLECT_POWER_UP_POINTS = 3
+const QUEST_POINTS = 25
 
 # Stat Values
 const REG_CRITTER_HP = 1
@@ -59,6 +60,7 @@ var power_ups_collected = 0
 var num_swats = 0
 var successful_swats = 0
 var time_elapsed = 0
+var quests_completed = 0
 
 # Scaling Parameters
 var level = 0
@@ -66,6 +68,13 @@ const TIMER_INCREMENT = 0.05
 const VELOCITY_INCREMENT = 5.0
 const SCALE_INCREMENT = Vector2(0.1, 0.1)
 const LUCK_INCREMENT: float = 0.2
+
+# Assets
+var forwarder_icon: Texture2D = load("res://art/critter3.png")
+var zigzagger_icon: Texture2D = load("res://art/critter3_red.png")
+var spiraler_icon: Texture2D = load("res://art/critter3_green.png")
+var faker_icon: Texture2D = load("res://art/critter3_yellow.png")
+var chaser_icon: Texture2D = load("res://art/critter3_purple.png")
 
 func calculate_score() -> int:
 	var score = 0
@@ -76,6 +85,7 @@ func calculate_score() -> int:
 	score += CHASER_SQUISH_POINTS * chasers
 	score += critter_bonus_points
 	score += COLLECT_POWER_UP_POINTS * power_ups_collected
+	score += QUEST_POINTS * quests_completed
 	return score
 
 func reset_state() -> void:
@@ -90,6 +100,7 @@ func reset_state() -> void:
 	num_swats = 0
 	successful_swats = 0
 	time_elapsed = 0
+	quests_completed = 0
 	level = 0
 	damage_increase = 0
 	size_increase = 0
