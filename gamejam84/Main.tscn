@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://0x0wfcn5h6ak"]
+[gd_scene load_steps=16 format=3 uid="uid://0x0wfcn5h6ak"]
 
 [ext_resource type="PackedScene" uid="uid://dhd8sqh56dl4a" path="res://player/Player.tscn" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://cnay2uhntt0la" path="res://main.gd" id="1_uu6xs"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://coqc6gtkj2fdl" path="res://gui/pause.tscn" id="10_wkp8b"]
 [ext_resource type="PackedScene" uid="uid://ddhv7gv0dw3am" path="res://gui/stats.tscn" id="11_20pc6"]
 [ext_resource type="PackedScene" uid="uid://sy7jjndicuyu" path="res://gui/level.tscn" id="12_5vvyt"]
+[ext_resource type="PackedScene" uid="uid://w0u7j23cql36" path="res://miniquests/miniquest.tscn" id="13_c6i3y"]
 
 [sub_resource type="Curve2D" id="Curve2D_glv2v"]
 _data = {
@@ -86,6 +87,10 @@ layer = 2
 visible = false
 
 [node name="Level" parent="." instance=ExtResource("12_5vvyt")]
+visible = false
+
+[node name="Miniquest" parent="." instance=ExtResource("13_c6i3y")]
+layer = 2
 visible = false
 
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
