@@ -23,3 +23,9 @@ func _on_exit_button_pressed() -> void:
 	audio_player.stream = exit_sound
 	audio_player.play()
 	get_tree().quit()
+
+
+func _on_credit_button_pressed() -> void:
+	audio_player.stream = button_click
+	audio_player.play()
+	get_tree().change_scene_to_file("res://gui/credits.tscn")

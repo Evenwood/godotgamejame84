@@ -122,4 +122,5 @@ func _on_restart_button_pressed() -> void:
 
 
 func _on_exit_button_pressed() -> void:
+	hide()
 	get_tree().quit()
