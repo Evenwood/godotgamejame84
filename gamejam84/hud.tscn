@@ -2,12 +2,11 @@
 
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_37p78"]
 [ext_resource type="Script" uid="uid://b0krfvy2sgjwr" path="res://hud.gd" id="1_64ctp"]
-[ext_resource type="Shader" path="res://hud.gdshader" id="3_8sq4i"]
+[ext_resource type="Shader" uid="uid://blr6y7iq3a77t" path="res://hud.gdshader" id="3_8sq4i"]
+[ext_resource type="StyleBox" uid="uid://ck3von8de5s5h" path="res://hud.tres" id="4_640wx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_640wx"]
 shader = ExtResource("3_8sq4i")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8sq4i"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_64ctp")
@@ -42,7 +41,7 @@ grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_37p78")
 theme_override_font_sizes/font_size = 64
-theme_override_styles/normal = SubResource("StyleBoxFlat_8sq4i")
+theme_override_styles/normal = ExtResource("4_640wx")
 text = "Squish the Critters!!!"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -94,6 +93,7 @@ offset_right = 423.0
 offset_bottom = 54.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.26
 
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

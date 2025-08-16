@@ -15,6 +15,7 @@ var max_quest_value = 10
 
 @onready var player = $Player
 @onready var stats = $Stats
+@onready var hud = $HUD
 
 var squish_sound
 var pop_sound
@@ -198,7 +199,7 @@ func process_end_game() -> void:
 	for c in critters:
 		c.queue_free()
 	$HUD.show_message("Time's Up!")
-	audio_player.stop()
+	
 	audio_player.stream = times_up_sound
 	audio_player.play()
 	await get_tree().create_timer(2.0).timeout
@@ -217,6 +218,7 @@ func display_stat_screen() -> void:
 func process_continue() -> void:
 	audio_player.stream = restart_sound
 	audio_player.play()
+	hud.start_music()
 	Engine.time_scale = 1
 	time = 0
 	$HUD.show_message("Level Up!")
@@ -227,6 +229,7 @@ func process_continue() -> void:
 func process_restart() -> void:
 	audio_player.stream = restart_sound
 	audio_player.play()
+	hud.start_music()
 	Core.reset_state()
 	Engine.time_scale = 1
 	new_game()
@@ -366,6 +369,8 @@ func _on_stats_restart_game() -> void:
 
 
 func _on_level_selection_made() -> void:
+	audio_player.stream = preload("res://art/level_up.mp3")
+	audio_player.play()
 	apply_level()
 	Engine.time_scale = 1
 	reset_game_state()
