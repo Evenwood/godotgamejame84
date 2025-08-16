@@ -10,6 +10,7 @@ signal restart_game()
 @onready var succ_swats = $StatPanel/MarginContainer/LabelContainer/SuccSwatLabel
 @onready var accuracy = $StatPanel/MarginContainer/LabelContainer/AccuracyLabel
 @onready var time = $StatPanel/MarginContainer/LabelContainer/TimeLabel
+@onready var quests = $StatPanel/MarginContainer/LabelContainer/QuestLabel
 
 @onready var continue_button = $StatPanel/MarginContainer/LabelContainer/ButtonContainer/ContinueButton
 @onready var restart_button = $StatPanel/MarginContainer/LabelContainer/ButtonContainer/RestartButton
@@ -30,6 +31,7 @@ signal restart_game()
 
 func _ready() -> void:
 	stat_timer.wait_time = Core.STAT_SCREEN_TIME_INTERVAL
+	quests.tooltip_text = "Worth " + str(Core.QUEST_POINTS)
 	forwarder.tooltip_text = "Worth " + str(Core.FORWARDER_SQUISH_POINTS)
 	zigzagger.tooltip_text = "Worth " + str(Core.ZIGZAGGER_SQUISH_POINTS)
 	spiraler.tooltip_text = "Worth " + str(Core.SPIRALER_SQUISH_POINTS)
@@ -44,6 +46,7 @@ func update_stats() -> void:
 	succ_swats.text = "Successful Swats: " + str(Core.successful_swats)
 	accuracy.text = "Accuracy: " + calc_accuracy()
 	time.text = "Time Elapsed: " + str(Core.time_elapsed) + " seconds"
+	quests.text ="Quests Completed: " + str(Core.quests_completed)
 	
 	forwarder.text = "Forwarders: " + str(Core.forwarders)
 	zigzagger.text = "Zigzaggers: " + str(Core.zigzaggers)
@@ -78,6 +81,7 @@ func clear_view() -> void:
 	succ_swats.hide()
 	accuracy.hide()
 	time.hide()
+	quests.hide()
 	continue_button.hide()
 	restart_button.hide()
 	exit_button.hide()
@@ -100,6 +104,8 @@ func create_view() -> void:
 	accuracy.show()
 	await stat_timer.timeout
 	time.show()
+	await stat_timer.timeout
+	quests.show()
 	await stat_timer.timeout
 	$LevelPanel.show()
 	await stat_timer.timeout

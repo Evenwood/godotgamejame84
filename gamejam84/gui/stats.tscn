@@ -35,7 +35,7 @@ theme_override_constants/margin_bottom = 35
 
 [node name="LabelContainer" type="VBoxContainer" parent="StatPanel/MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 45
+theme_override_constants/separation = 35
 
 [node name="CritterLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
 layout_mode = 2
@@ -103,6 +103,16 @@ layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("1_wd47t")
 theme_override_font_sizes/normal_font_size = 25
 text = "Time Elapsed: "
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuestLabel" type="RichTextLabel" parent="StatPanel/MarginContainer/LabelContainer"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_wd47t")
+theme_override_font_sizes/normal_font_size = 25
+text = "Quests Completed: "
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1
