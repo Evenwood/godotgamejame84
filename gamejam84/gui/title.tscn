@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://t8lu06un51dt"]
+[gd_scene load_steps=4 format=3 uid="uid://t8lu06un51dt"]
 
 [ext_resource type="Script" uid="uid://b6u27gfkeehbd" path="res://gui/title.gd" id="1_0pby2"]
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_2e5gx"]
+[ext_resource type="AudioStream" uid="uid://bvsp7vmtgx5tf" path="res://art/little-slimex27s-adventure-151007.mp3" id="3_80gyu"]
 
 [node name="Title" type="Node2D"]
 script = ExtResource("1_0pby2")
@@ -64,6 +65,10 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_2e5gx")
 theme_override_font_sizes/font_size = 50
 text = "Exit"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_80gyu")
+autoplay = true
 
 [connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]

@@ -15,6 +15,8 @@ signal smoke_bomb_hit(critter, damage)
 @onready var powerup_handler = PlayerPowerups.new()
 @onready var boundary_handler = PlayerBoundaries.new()
 
+@onready var audio_player = $AudioStreamPlayer
+
 @export var damage = 1
 
 var collision_handler: PlayerCollision
