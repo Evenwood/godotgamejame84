@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dx1idjdhy2hn0"]
+[gd_scene load_steps=6 format=3 uid="uid://dx1idjdhy2hn0"]
 
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_37p78"]
 [ext_resource type="Script" uid="uid://b0krfvy2sgjwr" path="res://hud.gd" id="1_64ctp"]
+[ext_resource type="Shader" uid="uid://blr6y7iq3a77t" path="res://hud.gdshader" id="3_8sq4i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_640wx"]
+shader = ExtResource("3_8sq4i")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8sq4i"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_64ctp")
@@ -10,15 +16,18 @@ script = ExtResource("1_64ctp")
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -21.5
-offset_right = 21.5
-offset_bottom = 58.0
+offset_left = -18.0
+offset_top = 14.0
+offset_right = 25.0
+offset_bottom = 72.0
 grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_37p78")
 theme_override_font_sizes/font_size = 64
 text = "0"
 
 [node name="Message" type="Label" parent="."]
+material = SubResource("ShaderMaterial_640wx")
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -30,8 +39,10 @@ offset_right = 575.5
 offset_bottom = 97.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_37p78")
 theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_8sq4i")
 text = "Squish the Critters!!!"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -41,10 +52,13 @@ autowrap_mode = 2
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -128.0
-offset_bottom = 58.0
+offset_left = -62.0
+offset_top = 17.0
+offset_right = -13.0
+offset_bottom = 75.0
 grow_horizontal = 0
-theme_override_colors/font_color = Color(0.00240158, 0.00171301, 0.00121519, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("1_37p78")
 theme_override_font_sizes/font_size = 64
 text = "0"

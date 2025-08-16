@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://u6ejj366dopy"]
+[gd_scene load_steps=5 format=3 uid="uid://u6ejj366dopy"]
 
 [ext_resource type="Texture2D" uid="uid://bmftf36joqr6g" path="res://art/size_up.png" id="1_1gyi4"]
 [ext_resource type="Script" uid="uid://biuj28frfejql" path="res://powerups/power_up.gd" id="1_5jdc1"]
+[ext_resource type="AudioStream" uid="uid://mlk8i45clinc" path="res://art/Freeze_power_up.mp3" id="3_4wysa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jdc1"]
 size = Vector2(58, 52)
@@ -17,3 +18,8 @@ texture = ExtResource("1_1gyi4")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_5jdc1")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="tick_tock_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_4wysa")
