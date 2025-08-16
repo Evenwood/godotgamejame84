@@ -49,7 +49,7 @@ func _ready() -> void:
 	squish_sound = preload("res://art/squishwet.mp3")
 	pop_sound = preload("res://art/squish-pop-256410.mp3")
 	audio_player.stream = squish_sound
-	create_new_quest()
+	#create_new_quest()
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
