@@ -1,5 +1,5 @@
 extends RefCounted
-class_name PlayerCollision
+#class_name PlayerCollision
 
 signal player_collided(collision_object, collision_point: Vector2)
 signal swat_something(swat_object, swat_point: Vector2)
