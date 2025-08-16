@@ -51,6 +51,12 @@ func update_player_stats():
 func reset_player():
 	damage = Core.PLAYER_BASE_DAMAGE
 	scale = Core.PLAYER_BASE_SCALE
+	
+func remove_power_ups():
+	if(is_powerup_active("size_boost")):
+		powerup_handler._remove_size_boost()
+	if(is_powerup_active("freeze")):
+		powerup_handler._remove_freeze()
 
 func _connect_component_signals():
 	# Forward movement signals
