@@ -41,8 +41,8 @@ func update_quest_display(objective: String, progress: String):
 	quest_objective_label.text = "Quest: " + objective
 	quest_progress_label.text = progress
 
-func show_quest_completed(bonus_points: int):
+func show_quest_completed(stat_increased: String):
 	# Show a temporary completion message
-	var completion_text = "Quest Complete! +" + str(bonus_points) + " points"
+	var completion_text = "Quest Complete! " + stat_increased + " up!"
 	# You could create a temporary label or use your existing message system
 	show_message(completion_text)
