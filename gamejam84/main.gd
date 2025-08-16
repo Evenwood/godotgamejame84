@@ -49,7 +49,7 @@ func _ready() -> void:
 	squish_sound = preload("res://art/squishwet.mp3")
 	pop_sound = preload("res://art/squish-pop-256410.mp3")
 	audio_player.stream = squish_sound
-	#create_new_quest()
+	create_new_quest()
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -124,7 +124,12 @@ func _spawn_critter() -> void:
 	# Add the critter to the scene before setting it up.
 	add_child(critter)
 	critter.setup(critter_type, mob_spawn_location.position, directionRadians)
+	# Add quest marker if it's the quest target
+	if current_quest and not current_quest.is_completed:
+		if critter_type == current_quest.critter_type_to_squish:
+			critter.set_quest_marker(true, "★", Color.GOLD)
 
+			
 func freeze_critters() -> void:
 	var critters = get_tree().get_nodes_in_group("critters")
 	for c in critters:
@@ -386,4 +391,15 @@ func create_new_quest():
 	# Update HUD to show quest
 	$HUD.update_quest_display(\
 		current_quest.get_objective(), current_quest.get_progress())
+		
+	_update_critter_markers()
 	print("New Quest: ", current_quest.get_objective())
+	
+func _update_critter_markers():
+	var critters = get_tree().get_nodes_in_group("critters")
+	for critter in critters:
+		if current_quest and not current_quest.is_completed:
+			if critter.critter_type == current_quest.critter_type_to_squish:
+				critter.set_quest_marker(true, "★", Color.GOLD)
+			else:
+				critter.set_quest_marker(false)

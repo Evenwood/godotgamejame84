@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_37p78"]
 [ext_resource type="Script" uid="uid://b0krfvy2sgjwr" path="res://hud.gd" id="1_64ctp"]
-[ext_resource type="Shader" uid="uid://blr6y7iq3a77t" path="res://hud.gdshader" id="3_8sq4i"]
+[ext_resource type="Shader" path="res://hud.gdshader" id="3_8sq4i"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_640wx"]
 shader = ExtResource("3_8sq4i")

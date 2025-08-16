@@ -17,6 +17,8 @@ var health_bar_offset: Vector2 = Vector2(0, 8)  # Position below critter
 # Behavior handler - all movement is delegated to this
 var behavior_handler
 
+@onready var quest_marker: Label = null
+
 func _ready() -> void:
 	add_to_group("critters")
 	player = get_tree().get_first_node_in_group("player")
@@ -196,3 +198,40 @@ func _create_sprite_piece() -> RigidBody2D:
 
 	get_tree().create_timer(0.5).timeout.connect(func(): piece.queue_free())
 	return piece
+	
+func set_quest_marker(show_marker: bool, symbol: String = "★", color: Color = Color.GOLD):
+	if show_marker:
+		_remove_quest_marker()  # Remove any existing marker
+		quest_marker = Label.new()
+		quest_marker.text = symbol  # Could be "★", "!", "?", "♦", etc.
+		quest_marker.modulate = color
+		quest_marker.add_theme_font_size_override("font_size", 12)
+		var critter_size = get_critter_size()
+		# Position marker above the critter (centered horizontally, above vertically)
+		#quest_marker.position = Vector2(-12, -critter_size.y/2 - 15)
+		quest_marker.position = Vector2(-critter_size.x/2, -critter_size.y)
+		quest_marker.z_index = 10
+		add_child(quest_marker)
+	else:
+		_remove_quest_marker()
+
+func get_critter_size() -> Vector2:
+	var animated_sprite = $AnimatedSprite2D
+	if not animated_sprite:
+		return Vector2.ZERO
+	# Get current frame texture size (most accurate)
+	var current_texture = animated_sprite.sprite_frames.get_frame_texture(\
+		animated_sprite.animation, animated_sprite.frame)
+	if current_texture:
+		return current_texture.get_size() * animated_sprite.scale
+	# Fallback
+	return Vector2(32, 32) * animated_sprite.scale
+	
+func _remove_quest_marker():
+	if quest_marker and is_instance_valid(quest_marker):
+		quest_marker.queue_free()
+		quest_marker = null
+
+# Call this in your critter's _exit_tree to clean up
+func _exit_tree():
+	_remove_quest_marker()
