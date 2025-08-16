@@ -24,6 +24,9 @@ var times_up_sound = preload("res://art/Times_up.mp3")
 var swat_sound = preload("res://art/Flyswatter.mp3")
 var has_played = false
 
+var current_quest: Miniquest
+var quest_bonus_points: int = 50  # Bonus for completing quest
+
 var critter_types = [\
 	"forwarder", "zigzagger", "spiraler", "faker", "chaser",\
 	"forwarder", "zigzagger", "spiraler", "faker", "chaser"\
@@ -44,6 +47,7 @@ func _ready() -> void:
 	squish_sound = preload("res://art/squishwet.mp3")
 	pop_sound = preload("res://art/squish-pop-256410.mp3")
 	audio_player.stream = squish_sound
+	#create_new_quest()
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -65,6 +69,7 @@ func new_game():
 	player.reset_player()
 	$PowerUpSpawner.reset_spawner()
 	$MobTimer.wait_time = Core.MOB_SPAWN_RATE
+	create_new_quest()
 	reset_game_state()
 	
 func reset_game_state() -> void:
@@ -135,6 +140,7 @@ func increase_level() -> void:
 	if($MobTimer.wait_time > 0.1):
 		$MobTimer.wait_time -= Core.TIMER_INCREMENT
 		print("Mob Timer Wait Time Now: " + str($MobTimer.wait_time))
+	create_new_quest()
 	$Level.show()
 
 
@@ -290,6 +296,22 @@ func calc_critter_points(critter) -> void:
 	critter.register_squished_critter()
 	Core.critter_bonus_points += critter.point_mod
 	
+	_update_quest_progress(critter)
+	
+func _update_quest_progress(critter):
+	if current_quest and not current_quest.is_completed:
+		if current_quest.squish_critter(critter.critter_type):
+			# Update quest display
+			$HUD.update_quest_display(\
+				current_quest.get_objective(), current_quest.get_progress())
+			
+			# Check if quest is completed
+			if current_quest.is_objective_met():
+				Core.critter_bonus_points += current_quest.get_reward_points()
+				$HUD.show_quest_completed(current_quest.get_reward_points())
+				create_new_quest()
+				print("Quest Completed! Bonus: +", current_quest.get_reward_points(), " points")	
+	
 func _on_resume_from_pause() -> void:
 	audio_player.stream = restart_sound
 	audio_player.play()
@@ -313,3 +335,17 @@ func _on_level_selection_made() -> void:
 	
 func _on_powerup_activated(powerup_type):
 	print(powerup_type, " ACTIVATED!")
+
+func create_new_quest():
+	current_quest = Miniquest.new("Mini Challenge", 25)  # 25 bonus points
+	
+	# Random critter count (5-10) and type
+	var critter_count = randi_range(5, 10)
+	var critter_type = critter_types[randi() % critter_types.size()]
+	
+	current_quest.set_critters_to_squish(critter_count, critter_type)
+	
+	# Update HUD to show quest
+	$HUD.update_quest_display(\
+		current_quest.get_objective(), current_quest.get_progress())
+	print("New Quest: ", current_quest.get_objective())

@@ -3,6 +3,9 @@ extends CanvasLayer
 # Notifies `Main` node that the button has been pressed
 signal start_game
 
+@onready var quest_objective_label = $QuestObjective
+@onready var quest_progress_label = $QuestProgress
+
 func show_message(text):
 	$Message.text = text
 	$Message.show()
@@ -32,3 +35,13 @@ func _on_start_button_pressed() -> void:
 
 func _on_message_timer_timeout() -> void:
 	$Message.hide()
+	
+func update_quest_display(objective: String, progress: String):
+	quest_objective_label.text = "Quest: " + objective
+	quest_progress_label.text = progress
+
+func show_quest_completed(bonus_points: int):
+	# Show a temporary completion message
+	var completion_text = "Quest Complete! +" + str(bonus_points) + " points"
+	# You could create a temporary label or use your existing message system
+	show_message(completion_text)
