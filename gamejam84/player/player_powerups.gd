@@ -36,6 +36,7 @@ func _remove_size_boost():
 	_cleanup_powerup("size_boost")
 	player.scale = original_scale + (Core.size_increase * Core.SCALE_INCREMENT)
 	player.damage /= 2
+	player.update_player_stats()
 	powerup_expired.emit("size_boost")
 
 func _apply_freeze(duration: float, multiplier: float):
