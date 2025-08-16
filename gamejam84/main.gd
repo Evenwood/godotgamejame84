@@ -24,8 +24,6 @@ var times_up_sound = preload("res://art/Times_up.mp3")
 var swat_sound = preload("res://art/Flyswatter.mp3")
 var has_played = false
 
-
-
 var critter_types = [\
 	"forwarder", "zigzagger", "spiraler", "faker", "chaser",\
 	"forwarder", "zigzagger", "spiraler", "faker", "chaser"\
@@ -40,7 +38,7 @@ func _ready() -> void:
 		print("Critter connected to player's swat signal")
 	#player.swat_started.connect(_on_swat_started)
 	player.smoke_bomb_hit.connect(_on_smoke_bomb_hit)
-		
+	player.powerup_activated.connect(_on_powerup_activated)	
 	$MobTimer.wait_time = Core.MOB_SPAWN_RATE	
 	
 	squish_sound = preload("res://art/squishwet.mp3")
@@ -312,3 +310,6 @@ func _on_level_selection_made() -> void:
 	apply_level()
 	Engine.time_scale = 1
 	reset_game_state()
+	
+func _on_powerup_activated(powerup_type):
+	print(powerup_type, " ACTIVATED!")
