@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddhv7gv0dw3am"]
+[gd_scene load_steps=5 format=3 uid="uid://ddhv7gv0dw3am"]
 
 [ext_resource type="Script" uid="uid://c1twi1peraaeq" path="res://gui/stats.gd" id="1_ut4vt"]
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_wd47t"]
 [ext_resource type="StyleBox" uid="uid://d32ynww7y148n" path="res://gui/statstyle.tres" id="2_cap47"]
+[ext_resource type="AudioStream" uid="uid://cd3jo2eucxshd" path="res://art/bullet_point.mp3" id="4_y8cag"]
 
 [node name="Stats" type="CanvasLayer"]
 script = ExtResource("1_ut4vt")
@@ -300,6 +301,9 @@ vertical_alignment = 1
 
 [node name="StatTimer" type="Timer" parent="."]
 ignore_time_scale = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_y8cag")
 
 [connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="StatPanel/MarginContainer/LabelContainer/ButtonContainer/RestartButton" to="." method="_on_restart_button_pressed"]

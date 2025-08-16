@@ -12,13 +12,15 @@ func show_message(text):
 	$Message.show()
 	$MessageTimer.start()
 	
-func show_game_over():
+func show_game_over():	
 	show_message("Time's Up!")
 	# Wait until the MessageTimer has counted down.
 	await $MessageTimer.timeout
-
 	$Message.text = Core.MAIN_MESSAGE
 	$Message.show()
+	#audio_player.autoplay = false
+	#audio_player.volume_db = -10
+	#audio_player.stop()
 	# Make a one-shot timer and wait for it to finish.
 	await get_tree().create_timer(1.0).timeout
 	$StartButton.show()
@@ -28,14 +30,28 @@ func update_score(score):
 	
 func update_time(time):
 	$TimerLabel.text = str(Core.TIME_LIMIT - time)
+	if time == 60:
+		audio_player.stop()
+
 
 
 func _on_start_button_pressed() -> void:
 	$StartButton.hide()
+	start_music()
 	start_game.emit()
+
+func start_music() -> void:
+	$StartButton.hide()
+	audio_player.stream = preload("res://art/2021-08-30_-_Boss_Time_-_www.FesliyanStudios.com.mp3")
+	audio_player.play()
+
+func stop_music() -> void:
+	$StartButton.hide()
+	audio_player.stop()
 
 func _on_message_timer_timeout() -> void:
 	$Message.hide()
+	
 	
 func update_quest_display(objective: String, progress: String):
 	quest_objective_label.text = "Quest: " + objective

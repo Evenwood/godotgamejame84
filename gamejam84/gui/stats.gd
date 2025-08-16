@@ -28,6 +28,7 @@ signal restart_game()
 @onready var luck = $LevelPanel/MarginContainer/LabelContainer/LuckLabel
 
 @onready var stat_timer = $StatTimer
+@onready var audio_player = $AudioStreamPlayer
 
 func _ready() -> void:
 	stat_timer.wait_time = Core.STAT_SCREEN_TIME_INTERVAL
@@ -90,28 +91,41 @@ func clear_view() -> void:
 func create_view() -> void:
 	stat_timer.start()
 	critters.show()
+	audio_player.play()
 	await stat_timer.timeout
 	$CritterPanel.show()
+	audio_player.play()
 	await stat_timer.timeout
 	bonus.show()
+	audio_player.play()
 	await stat_timer.timeout
 	powers.show()
+	audio_player.play()
 	await stat_timer.timeout
 	swats.show()
+	audio_player.play()
 	await stat_timer.timeout
 	succ_swats.show()
+	audio_player.play()
 	await stat_timer.timeout
 	accuracy.show()
+	audio_player.play()
 	await stat_timer.timeout
 	time.show()
+	audio_player.play()
 	await stat_timer.timeout
 	quests.show()
+	audio_player.play()
 	await stat_timer.timeout
 	$LevelPanel.show()
+	audio_player.play()
 	await stat_timer.timeout
 	continue_button.show()
+	audio_player.play()
 	restart_button.show()
+	audio_player.play()
 	exit_button.show()
+	audio_player.play()
 	stat_timer.stop()
 	
 	
