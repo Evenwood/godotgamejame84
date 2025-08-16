@@ -43,5 +43,4 @@ func update_quest_display(objective: String, progress: String):
 func show_quest_completed(bonus_points: int):
 	# Show a temporary completion message
 	var completion_text = "Quest Complete! +" + str(bonus_points) + " points"
-	# You could create a temporary label or use your existing message system
 	show_message(completion_text)
