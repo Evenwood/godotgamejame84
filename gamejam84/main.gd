@@ -175,6 +175,7 @@ func process_end_game() -> void:
 	game_active = false
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	player.remove_power_ups()
 	var critters = get_tree().get_nodes_in_group("critters")
 	for c in critters:
 		c.queue_free()
