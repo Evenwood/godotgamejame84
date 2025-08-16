@@ -10,6 +10,8 @@ var time
 var game_active = false
 var critter_dict = {}
 var paused = false
+var min_quest_value = 5
+var max_quest_value = 10
 
 @onready var player = $Player
 @onready var stats = $Stats
@@ -149,6 +151,8 @@ func unfreeze_critters() -> void:
 
 func increase_level() -> void:
 	Core.level += 1
+	min_quest_value += 1
+	max_quest_value += 2
 	if($MobTimer.wait_time > 0.1):
 		$MobTimer.wait_time -= Core.TIMER_INCREMENT
 		print("Mob Timer Wait Time Now: " + str($MobTimer.wait_time))
@@ -321,6 +325,7 @@ func _update_quest_progress(critter):
 			# Check if quest is completed
 			if current_quest.is_objective_met():
 				Core.quests_completed += 1
+				time -= 5 # add 5 seconds to time
 				quest_stat_increase()
 				await get_tree().create_timer(1.0).timeout
 				create_new_quest()
@@ -385,7 +390,7 @@ func create_new_quest():
 	current_quest = Miniquest.new("Mini Challenge", Core.QUEST_POINTS)  # 25 bonus points
 	
 	# Random critter count (5-10) and type
-	var critter_count = randi_range(5, 10)
+	var critter_count = randi_range(min_quest_value, max_quest_value)
 	var critter_type = critter_types[randi() % critter_types.size()]
 	
 	current_quest.set_critters_to_squish(critter_count, critter_type)
