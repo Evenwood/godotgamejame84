@@ -10,6 +10,12 @@ const POWER_UP_SPAWN_RATE = 10.0
 const MAX_POWER_UPS = 3
 const STAT_SCREEN_TIME_INTERVAL = 1.0
 
+const MIN_QUEST_VAL = 5
+const MAX_QUEST_VAL = 10
+const MIN_QUEST_INCREMENT = 1
+const MAX_QUEST_INCREMENT = 3
+const MAX_QUEST_LEVEL_GAP = 2
+
 # Intro Dialogue
 const INTRO_DIALOGUE_ONE = "I know, I know, you’re looking at your phone and sayin"
 const INTRO_DIALOGUE_TWO = "Really? That’s all you’re giving me? but come on, hear me out."

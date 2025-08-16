@@ -10,8 +10,8 @@ var time
 var game_active = false
 var critter_dict = {}
 var paused = false
-var min_quest_value = 5
-var max_quest_value = 10
+var min_quest_value = Core.MIN_QUEST_VAL
+var max_quest_value = Core.MAX_QUEST_VAL
 
 @onready var player = $Player
 @onready var stats = $Stats
@@ -72,6 +72,8 @@ func new_game():
 	
 	score = 0
 	time = 0
+	min_quest_value = Core.MIN_QUEST_VAL
+	max_quest_value = Core.MAX_QUEST_VAL
 	player.reset_player()
 	$PowerUpSpawner.reset_spawner()
 	$MobTimer.wait_time = Core.MOB_SPAWN_RATE
@@ -151,8 +153,9 @@ func unfreeze_critters() -> void:
 
 func increase_level() -> void:
 	Core.level += 1
-	min_quest_value += 1
-	max_quest_value += 2
+	min_quest_value += Core.MIN_QUEST_INCREMENT
+	if((Core.level % Core.MAX_QUEST_LEVEL_GAP) == 0):
+		max_quest_value += Core.MAX_QUEST_INCREMENT
 	if($MobTimer.wait_time > 0.1):
 		$MobTimer.wait_time -= Core.TIMER_INCREMENT
 		print("Mob Timer Wait Time Now: " + str($MobTimer.wait_time))
