@@ -6,9 +6,11 @@ extends CanvasLayer
 @onready var diag = $DialogueTimer
 @onready var next = $NextPageTimer
 
-var tween: Tween
+@onready var audio_player = $AudioStreamPlayer
 
+var tween: Tween
 var length = 0
+
 
 func _ready() -> void:
 	one.visible_characters = 0
@@ -81,11 +83,19 @@ func run_intro() -> void:
 
 func start_game() -> void:
 	get_tree().change_scene_to_file("res://Main.tscn")
+	
 
 
 func _on_skip_button_pressed() -> void:
+	var button_click = preload("res://art/button_1.mp3")
+	audio_player.stream = button_click
+	audio_player.play()
 	start_game()
 
 
 func _on_start_button_pressed() -> void:
+	var button_click = preload("res://art/button_1.mp3")
+	audio_player.stream = button_click
+	audio_player.play()
 	start_game()
+	

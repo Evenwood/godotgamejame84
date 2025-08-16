@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dufoppmg5vvjq"]
+[gd_scene load_steps=4 format=3 uid="uid://dufoppmg5vvjq"]
 
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_8a0l3"]
 [ext_resource type="Script" uid="uid://1oi6fjwt32em" path="res://gui/intro.gd" id="1_wn2ik"]
+[ext_resource type="AudioStream" uid="uid://bvsp7vmtgx5tf" path="res://art/little-slimex27s-adventure-151007.mp3" id="3_t0tvf"]
 
 [node name="Intro" type="CanvasLayer"]
 script = ExtResource("1_wn2ik")
@@ -68,6 +69,10 @@ wait_time = 2.0
 
 [node name="NextPageTimer" type="Timer" parent="."]
 wait_time = 4.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_t0tvf")
+autoplay = true
 
 [connection signal="pressed" from="SkipButton" to="." method="_on_skip_button_pressed"]
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]

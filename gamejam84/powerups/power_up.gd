@@ -13,6 +13,11 @@ signal powerup_collected(powerup_type: String, duration: float, effect_value: fl
 @export var freeze_texture: Texture2D
 @export var smoke_bomb_texture: Texture2D
 
+@onready var audio_player = $AudioStreamPlayer
+@onready var xl_sound = $SwatterPowerUp
+
+var freeze_sound = preload("res://art/Freeze_power_up.mp3")
+
 var start_position: Vector2
 var time_elapsed: float = 0.0
 @onready var sprite = $Sprite2D
@@ -65,13 +70,11 @@ func _on_body_entered(body):
 		
 func _collect_powerup(player):
 	Core.power_ups_collected += 1  # Used for score tracking and calculation
-	
+
 	print("Size power-up collected!")
-	
 	powerup_collected.emit(powerup_type, effect_duration, size_multiplier)
-	
-	_play_collection_effect()
-	
+
+	_play_collection_effect()	
 	queue_free()
 	
 func _play_collection_effect():
@@ -80,4 +83,6 @@ func _play_collection_effect():
 	tween.tween_property(self, "scale", Vector2(1.5, 1.5), 0.2)
 	tween.tween_callback(func(): modulate = Color(1, 1, 1, 0.5))
 	# Play sound here: AudioManager.play_sound("powerup_collect")
+
+
 	

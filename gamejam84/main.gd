@@ -14,6 +14,17 @@ var paused = false
 
 var squish_sound
 var pop_sound
+var pause_sound = preload("res://art/Pause_button.mp3")
+var restart_sound = preload("res://art/Restart_button.mp3")
+var start_sound = preload("res://art/Start_button.mp3")
+var smoke_sound = preload("res://art/Slime_power_up.mp3")
+var xl_sound = preload("res://art/Swatter_power_up.mp3")
+var freeze_sound = preload("res://art/Freeze_power_up.mp3")
+var times_up_sound = preload("res://art/Times_up.mp3")
+var swat_sound = preload("res://art/Flyswatter.mp3")
+var has_played = false
+
+
 
 var critter_types = [\
 	"forwarder", "zigzagger", "spiraler", "faker", "chaser",\
@@ -49,6 +60,8 @@ func _process(delta: float) -> void:
 		$Player.start($StartPosition.position)
 	
 func new_game():
+	audio_player.stream = restart_sound
+	audio_player.play()
 	score = 0
 	time = 0
 	player.reset_player()
@@ -57,6 +70,7 @@ func new_game():
 	reset_game_state()
 	
 func reset_game_state() -> void:
+
 	$HUD.update_score(score)
 	$HUD.update_time(time)
 	$HUD.show_message("Get Ready")
@@ -70,13 +84,18 @@ func reset_game_state() -> void:
 func _on_mob_timer_timeout() -> void:
 	
 	if player.is_powerup_active("freeze"):
+		#audio_player.stream = freeze_sound
+		#audio_player.play()		
 		return
 	if player.is_powerup_active("smoke_bomb"):
+		#audio_player.stream = smoke_sound
+		#audio_player.play()
 		return	
 		
 	_spawn_critter()
 	
 	var count = 0
+	
 	var critters = get_tree().get_nodes_in_group("critters")
 	for c in critters:
 		count += 1
@@ -128,13 +147,14 @@ func apply_level() -> void:
 
 
 func pause() -> void:
+	audio_player.stream = pause_sound
+	audio_player.play()
 	paused = true
 	freeze_critters()
 	$ScoreTimer.stop()
 	update_score()
 	Engine.time_scale = 0
 	$Pause.show()
-	
 	
 func unpause() -> void:
 	paused = false
@@ -159,6 +179,9 @@ func process_end_game() -> void:
 	for c in critters:
 		c.queue_free()
 	$HUD.show_message("Time's Up!")
+	audio_player.stop()
+	audio_player.stream = times_up_sound
+	audio_player.play()
 	await get_tree().create_timer(2.0).timeout
 	Engine.time_scale = 0
 	update_score()
@@ -173,6 +196,8 @@ func display_stat_screen() -> void:
 
 
 func process_continue() -> void:
+	audio_player.stream = restart_sound
+	audio_player.play()
 	Engine.time_scale = 1
 	time = 0
 	$HUD.show_message("Level Up!")
@@ -181,6 +206,8 @@ func process_continue() -> void:
 	increase_level()
 
 func process_restart() -> void:
+	audio_player.stream = restart_sound
+	audio_player.play()
 	Core.reset_state()
 	Engine.time_scale = 1
 	new_game()
@@ -211,12 +238,17 @@ func _on_start_timer_timeout() -> void:
 	$ScoreTimer.start()
 		
 func _on_critter_swatted(critter, damage):
+	audio_player.stream = swat_sound
+	audio_player.play()
 	_do_swat(critter, damage)
 	
 func _on_smoke_bomb_hit(critter, damage):
 	_do_swat(critter, damage)
+	audio_player.stream = smoke_sound
+	audio_player.play()
 		
 func _do_swat(critter, damage):
+	
 	# Validate critter is still alive before processing
 	if not is_instance_valid(critter) or critter.HP <= 0:
 		return
@@ -260,12 +292,18 @@ func calc_critter_points(critter) -> void:
 	Core.critter_bonus_points += critter.point_mod
 	
 func _on_resume_from_pause() -> void:
+	audio_player.stream = restart_sound
+	audio_player.play()
 	process_pause()
 
 func _on_stats_continue_game() -> void:
+	audio_player.stream = restart_sound
+	audio_player.play()
 	process_continue()
 
 func _on_stats_restart_game() -> void:
+	audio_player.stream = restart_sound
+	audio_player.play()
 	process_restart()
 
 
