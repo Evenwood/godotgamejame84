@@ -5,6 +5,7 @@ signal start_game
 
 @onready var quest_objective_label = $QuestObjective
 @onready var quest_progress_label = $QuestProgress
+@onready var audio_player = $AudioStreamPlayer
 
 func show_message(text):
 	$Message.text = text

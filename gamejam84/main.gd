@@ -66,6 +66,7 @@ func _process(delta: float) -> void:
 func new_game():
 	audio_player.stream = restart_sound
 	audio_player.play()
+	
 	score = 0
 	time = 0
 	player.reset_player()

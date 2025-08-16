@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://52wdjceyo1jj"]
+[gd_scene load_steps=4 format=3 uid="uid://52wdjceyo1jj"]
 
 [ext_resource type="Script" uid="uid://rt2n4j5wkri3" path="res://gui/credits.gd" id="1_i8qro"]
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_t6a7l"]
+[ext_resource type="AudioStream" uid="uid://qlnw3usapb3i" path="res://art/246391__foolboymedia__farewell-princess.mp3" id="3_uhutt"]
 
 [node name="Credits" type="CanvasLayer"]
 script = ExtResource("1_i8qro")
@@ -101,6 +102,17 @@ fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ThankYouLabel" type="Label" parent="."]
+offset_left = 281.0
+offset_top = 473.0
+offset_right = 842.0
+offset_bottom = 602.0
+theme_override_fonts/font = ExtResource("1_t6a7l")
+theme_override_font_sizes/font_size = 35
+text = "Thank you for playing!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="TitleButton" type="Button" parent="."]
 z_index = 1
 anchors_preset = 5
@@ -130,6 +142,8 @@ theme_override_font_sizes/font_size = 25
 text = "Exit"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_uhutt")
+autoplay = true
 
 [connection signal="pressed" from="TitleButton" to="." method="_on_title_button_pressed"]
 [connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]
