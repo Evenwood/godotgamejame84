@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cj12y3ght0265" path="res://gui/pause.gd" id="1_ge7em"]
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_v3cpl"]
 
-[node name="Pause" type="Node2D"]
+[node name="Pause" type="CanvasLayer"]
 script = ExtResource("1_ge7em")
 
 [node name="TextureRect" type="ColorRect" parent="."]
@@ -15,8 +15,6 @@ color = Color(0.0901961, 0.0901961, 0.0901961, 0.392157)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1152.0
-offset_bottom = 648.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 30
