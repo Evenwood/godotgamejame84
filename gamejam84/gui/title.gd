@@ -1,7 +1,7 @@
-extends Node2D
+extends CanvasLayer
 
 @onready var tween: = get_tree().create_tween()
-@onready var title: = $CanvasLayer/TitleLabel
+@onready var title: = $TitleLabel
 @onready var audio_player = $AudioStreamPlayer
 
 var button_click = preload("res://art/button_1.mp3")
