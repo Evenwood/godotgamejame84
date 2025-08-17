@@ -57,4 +57,6 @@ theme_override_fonts/font = ExtResource("2_ehxuy")
 theme_override_font_sizes/font_size = 20
 text = "OK"
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+
 [connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/OkButton" to="." method="_on_ok_button_pressed"]
