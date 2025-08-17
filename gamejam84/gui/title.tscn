@@ -4,12 +4,10 @@
 [ext_resource type="FontFile" uid="uid://csuju232u5qsn" path="res://art/PixelatedEleganceRegular-ovyAA.ttf" id="1_2e5gx"]
 [ext_resource type="AudioStream" uid="uid://bvsp7vmtgx5tf" path="res://art/little-slimex27s-adventure-151007.mp3" id="3_80gyu"]
 
-[node name="Title" type="Node2D"]
+[node name="Title" type="CanvasLayer"]
 script = ExtResource("1_0pby2")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,7 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="TitleLabel" type="RichTextLabel" parent="CanvasLayer"]
+[node name="TitleLabel" type="RichTextLabel" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -34,15 +32,15 @@ vertical_alignment = 1
 visible_characters = 0
 visible_ratio = 0.0
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -153.5
-offset_top = -66.0
-offset_right = 153.5
+offset_left = -166.5
+offset_top = -319.0
+offset_right = 166.5
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_left = 35
@@ -50,23 +48,23 @@ theme_override_constants/margin_top = 35
 theme_override_constants/margin_right = 35
 theme_override_constants/margin_bottom = 35
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 45
 
-[node name="StartButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+[node name="StartButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_2e5gx")
 theme_override_font_sizes/font_size = 50
 text = "Start"
 
-[node name="CreditButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+[node name="CreditButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_2e5gx")
 theme_override_font_sizes/font_size = 50
 text = "Credits"
 
-[node name="ExitButton" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+[node name="ExitButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_2e5gx")
 theme_override_font_sizes/font_size = 50
@@ -76,7 +74,6 @@ text = "Exit"
 stream = ExtResource("3_80gyu")
 autoplay = true
 
-[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/CreditButton" to="." method="_on_credit_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CreditButton" to="." method="_on_credit_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
