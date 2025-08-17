@@ -199,7 +199,7 @@ func _create_sprite_piece() -> RigidBody2D:
 	get_tree().create_timer(0.5).timeout.connect(func(): piece.queue_free())
 	return piece
 	
-func set_quest_marker(show_marker: bool, symbol: String = "★", color: Color = Color.GOLD):
+func set_quest_marker(show_marker: bool, symbol: String = "*", color: Color = Color.GOLD):
 	if show_marker:
 		_remove_quest_marker()  # Remove any existing marker
 		quest_marker = Label.new()
