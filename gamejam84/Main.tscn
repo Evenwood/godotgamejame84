@@ -86,7 +86,6 @@ animation = &"die"
 
 [node name="Pause" parent="." instance=ExtResource("10_wkp8b")]
 visible = false
-z_index = 2
 
 [node name="Stats" parent="." instance=ExtResource("11_20pc6")]
 layer = 2

@@ -181,10 +181,10 @@ func pause() -> void:
 func unpause() -> void:
 	paused = false
 	$Pause.hide()
-	unfreeze_critters()
 	$ScoreTimer.start()
 	update_score()
 	Engine.time_scale = 1
+	unfreeze_critters()
 
 
 func process_pause() -> void:
