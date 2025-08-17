@@ -133,7 +133,7 @@ func _spawn_critter() -> void:
 	# Add quest marker if it's the quest target
 	if current_quest and not current_quest.is_completed:
 		if critter_type == current_quest.critter_type_to_squish:
-			critter.set_quest_marker(true, "★", Color.GOLD)
+			critter.set_quest_marker(true, "*", Color.GOLD)
 
 			
 func freeze_critters() -> void:
@@ -414,6 +414,6 @@ func _update_critter_markers():
 	for critter in critters:
 		if current_quest and not current_quest.is_completed:
 			if critter.critter_type == current_quest.critter_type_to_squish:
-				critter.set_quest_marker(true, "★", Color.GOLD)
+				critter.set_quest_marker(true, "*", Color.GOLD)
 			else:
 				critter.set_quest_marker(false)
